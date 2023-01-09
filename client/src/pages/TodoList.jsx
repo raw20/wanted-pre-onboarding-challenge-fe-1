@@ -1,12 +1,14 @@
-import * as React from "react";
+import React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import GlobalStyles from "@mui/material/GlobalStyles";
 import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import ButtonGroup from "@mui/material/ButtonGroup";
 import Header from "../components/Header/Header";
-import Todo from "../components/TodoList/Todo";
 import TodoTextField from "../components/TextField/TodoTextField";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate, Outlet } from "react-router-dom";
 
 function TodoList() {
   const token = window.localStorage.getItem("toDos");
@@ -47,7 +49,24 @@ function TodoList() {
         </Typography>
       </Container>
       <TodoTextField token={token} />
-      <Todo token={token} />
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "baseline",
+          mb: 10,
+        }}
+      >
+        <ButtonGroup variant="outlined" aria-label="outlined button group">
+          <Link to="/todo/list" style={{ color: "#42a5f5" }}>
+            <Button>목록 보기</Button>
+          </Link>
+          <Link to="/todo/detail" style={{ color: "#42a5f5" }}>
+            <Button>상세 보기</Button>
+          </Link>
+        </ButtonGroup>
+      </Box>
+      <Outlet token={token} />
     </React.Fragment>
   );
 }

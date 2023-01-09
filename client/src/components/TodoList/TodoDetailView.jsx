@@ -9,13 +9,20 @@ import CardHeader from "@mui/material/CardHeader";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
 import { PORT } from "../../utils/auth/api";
-import { deleteTodoHandler } from "../../utils/todo/api";
+import { deleteTodoHandler, getTodoByIdHandler } from "../../utils/todo/api";
+import UpdateTodo from "../UpdateTodoModal/UpdateTodo";
+import { useRecoilState } from "recoil";
+import { refreshState } from "../../store/atom";
 
-function Todo(token) {
+function TodoDetailView(token) {
   const [data, setData] = useState([]);
+  const [editData, setEditData] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [refreshKey, setRefreshKey] = useRecoilState(refreshState);
 
-  async function getTodoByIdHandler() {
+  async function getTodosHandler() {
     await axios
       .get(`${PORT}/todos`, {
         headers: {
@@ -23,34 +30,35 @@ function Todo(token) {
         },
       })
       .then((res) => {
-        console.log(res.data);
         setData(res.data.data);
       })
       .catch((error) => {
         console.log(error.response);
       });
   }
+
   const deleteHandler = (event, id) => {
+    event.preventDefault();
     deleteTodoHandler(id, token);
-    alert("삭제되었습니다.");
+    setRefreshKey((oldKey) => oldKey + 1);
+  };
+  const updateHandler = (id) => {
+    setOpen(true);
+    getTodoByIdHandler(id, token, setEditData);
+  };
+  const handleClose = () => {
+    setOpen(false);
   };
 
   useEffect(() => {
-    getTodoByIdHandler();
-  }, []);
+    getTodosHandler();
+  }, [refreshKey]);
 
   return (
-    <Container maxWidth="md" component="main">
+    <Container maxWidth="md" component="main" sx={{ mt: 10 }}>
       <Grid container spacing={5} alignItems="flex-end">
-        {data?.map((ele, index) => (
-          // Enterprise card is full width at sm breakpoint
-          <Grid
-            item
-            key={ele.title}
-            xs={12}
-            //sm={tier.title === 'Enterprise' ? 12 : 6}
-            md={4}
-          >
+        {data?.map((ele) => (
+          <Grid item key={ele.title} xs={12} md={4}>
             <Card>
               <CardHeader
                 title={ele.title}
@@ -79,7 +87,7 @@ function Todo(token) {
                       component="li"
                       variant="subtitle1"
                       align="center"
-                      key={`${ele.id}${index}`}
+                      key={`${ele.id}`}
                     >
                       {ele.content}
                     </Typography>
@@ -87,7 +95,26 @@ function Todo(token) {
                 </Box>
               </CardContent>
               <CardActions>
-                <Button fullWidth variant="contained">
+                <Modal
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <Bar>
+                    <UpdateTodo
+                      editData={editData}
+                      token={token}
+                      setOpen={setOpen}
+                      setRefreshKey={setRefreshKey}
+                    />
+                  </Bar>
+                </Modal>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  onClick={() => updateHandler(ele.id)}
+                >
                   수정
                 </Button>
                 <Button
@@ -105,5 +132,10 @@ function Todo(token) {
     </Container>
   );
 }
+const Bar = React.forwardRef((props, ref) => (
+  <span {...props} ref={ref}>
+    {props.children}
+  </span>
+));
 
-export default Todo;
+export default TodoDetailView;

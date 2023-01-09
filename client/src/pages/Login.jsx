@@ -6,8 +6,15 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import LoginTextField from "../components/TextField/LoginTextField";
+import { Navigate } from "react-router-dom";
 
 export default function Login() {
+  const token = window.localStorage.getItem("toDos");
+
+  if (token) {
+    alert("로그인중에는 접근할 수 없는 페이지입니다.");
+    return <Navigate to="/todo" />;
+  }
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />

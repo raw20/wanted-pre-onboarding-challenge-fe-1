@@ -2,8 +2,6 @@ import React from "react";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
 import { LoginHandler } from "../../utils/auth/api";
@@ -40,10 +38,7 @@ function LoginTextField() {
           id="password"
           autoComplete="current-password"
         />
-        <FormControlLabel
-          control={<Checkbox value="remember" color="primary" />}
-          label="Remember me"
-        />
+
         <Button
           type="submit"
           fullWidth
