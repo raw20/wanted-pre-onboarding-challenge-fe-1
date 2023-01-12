@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FormEvent } from "react";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -7,11 +7,11 @@ import { Link } from "react-router-dom";
 import { LoginHandler } from "../../utils/auth/api";
 
 function LoginTextField() {
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const email = data.get("email");
-    const password = data.get("password");
+    const email: FormDataEntryValue = data.get("email") ?? "";
+    const password: FormDataEntryValue = data.get("password") ?? "";
 
     LoginHandler(email, password);
   };

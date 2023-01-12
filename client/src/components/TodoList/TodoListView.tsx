@@ -1,5 +1,11 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+  MouseEvent,
+  forwardRef,
+  ReactNode,
+} from "react";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Box from "@mui/material/Box";
@@ -9,16 +15,24 @@ import Container from "@mui/material/Container";
 import Modal from "@mui/material/Modal";
 import { PORT } from "../../utils/auth/api";
 import { deleteTodoHandler, getTodoByIdHandler } from "../../utils/todo/api";
-import UpdateTodo from "../UpdateTodoModal/UpdateTodo";
+import UpdateTodo from "../Modal/UpdateTodo";
 import { useRecoilState } from "recoil";
 import { refreshState } from "../../store/atom";
+import { TodoList, TokenType } from "../../interface/Todo.interface";
+import { useOutletContext } from "react-router-dom";
 
-function TodoListView(token) {
-  const [data, setData] = useState([]);
-  const [editData, setEditData] = useState([]);
+interface BarProps {
+  children?: ReactNode;
+  type: "submit" | "span";
+}
+export type Ref = HTMLButtonElement;
+
+function TodoListView() {
+  const { token } = useOutletContext<TokenType>();
+  const [toDoData, setTodoData] = useState<TodoList[]>([]);
+  const [editTodoData, setEditTodoData] = useState([]);
   const [open, setOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useRecoilState(refreshState);
-
   async function getTodosHandler() {
     await axios
       .get(`${PORT}/todos`, {
@@ -27,21 +41,21 @@ function TodoListView(token) {
         },
       })
       .then((res) => {
-        setData(res.data.data);
+        setTodoData(res.data.data);
       })
       .catch((error) => {
         console.log(error.response);
       });
   }
 
-  const deleteHandler = (event, id) => {
+  const deleteHandler = (event: MouseEvent<HTMLButtonElement>, id: string) => {
     event.preventDefault();
-    deleteTodoHandler(id, token);
+    deleteTodoHandler(id);
     setRefreshKey((oldKey) => oldKey + 1);
   };
-  const updateHandler = (id) => {
+  const updateHandler = (id: string) => {
     setOpen(true);
-    getTodoByIdHandler(id, token, setEditData);
+    getTodoByIdHandler(id, setEditTodoData);
   };
   const handleClose = () => {
     setOpen(false);
@@ -59,9 +73,9 @@ function TodoListView(token) {
           mb: 2,
         }}
       >
-        {data?.map((ele) => (
-          <ListItemButton component="a" href="#simple-list" key={ele.id}>
-            <ListItemText primary={ele.title} />
+        {toDoData?.map((todo) => (
+          <ListItemButton component="a" href="#simple-list" key={todo.id}>
+            <ListItemText primary={todo?.title} />
             <CardActions>
               <Modal
                 open={open}
@@ -69,10 +83,9 @@ function TodoListView(token) {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
               >
-                <Bar>
+                <Bar type={"span"}>
                   <UpdateTodo
-                    editData={editData}
-                    token={token}
+                    editTodoData={editTodoData}
                     setOpen={setOpen}
                     setRefreshKey={setRefreshKey}
                   />
@@ -81,14 +94,14 @@ function TodoListView(token) {
               <Button
                 fullWidth
                 variant="contained"
-                onClick={() => updateHandler(ele.id)}
+                onClick={() => updateHandler(todo.id)}
               >
                 수정
               </Button>
               <Button
                 fullWidth
                 variant="contained"
-                onClick={(event) => deleteHandler(event, ele.id)}
+                onClick={(event) => deleteHandler(event, todo.id)}
               >
                 삭제
               </Button>
@@ -100,7 +113,7 @@ function TodoListView(token) {
   );
 }
 
-const Bar = React.forwardRef((props, ref) => (
+const Bar = forwardRef<Ref, BarProps>((props, ref) => (
   <span {...props} ref={ref}>
     {props.children}
   </span>

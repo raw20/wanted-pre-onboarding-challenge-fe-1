@@ -12,7 +12,6 @@ import { Link, Navigate, Outlet } from "react-router-dom";
 
 function TodoList() {
   const token = window.localStorage.getItem("toDos");
-
   if (!token) {
     alert("토큰이 없거나 만료되어 로그인 페이지로 이동합니다.");
     return <Navigate to="/" />;
@@ -48,7 +47,7 @@ function TodoList() {
           할일을 추가하고 삭제하고 수정할 수 있습니다.
         </Typography>
       </Container>
-      <TodoTextField token={token} />
+      <TodoTextField />
       <Box
         sx={{
           display: "flex",
@@ -66,7 +65,7 @@ function TodoList() {
           </Link>
         </ButtonGroup>
       </Box>
-      <Outlet token={token} />
+      <Outlet context={{ token }} />
     </React.Fragment>
   );
 }

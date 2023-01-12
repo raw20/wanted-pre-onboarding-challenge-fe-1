@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, FormEvent, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
 import { signUpHandler } from "../../utils/auth/api";
 import Box from "@mui/material/Box";
@@ -12,22 +12,22 @@ function SignUpTextField() {
   const emailRegex =
     /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const email = data.get("email");
-    const password = data.get("password");
+    const email: FormDataEntryValue = data.get("email") ?? "";
+    const password: FormDataEntryValue = data.get("password") ?? "";
 
     signUpHandler(email, password);
   };
-  const handleChangeEmail = (event) => {
+  const handleChangeEmail = (event: ChangeEvent<HTMLInputElement>) => {
     if (!emailRegex.test(event.target.value)) {
       setOkEmail(false);
     } else {
       setOkEmail(true);
     }
   };
-  const handleChangePassword = (event) => {
+  const handleChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.value.length < 8) {
       setOkPassword(false);
     } else {

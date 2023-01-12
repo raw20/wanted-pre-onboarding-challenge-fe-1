@@ -1,5 +1,11 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+  MouseEvent,
+  forwardRef,
+  ReactNode,
+} from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -12,13 +18,22 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { PORT } from "../../utils/auth/api";
 import { deleteTodoHandler, getTodoByIdHandler } from "../../utils/todo/api";
-import UpdateTodo from "../UpdateTodoModal/UpdateTodo";
+import UpdateTodo from "../Modal/UpdateTodo";
 import { useRecoilState } from "recoil";
 import { refreshState } from "../../store/atom";
+import { TodoList, TokenType } from "../../interface/Todo.interface";
+import { useOutletContext } from "react-router-dom";
 
-function TodoDetailView(token) {
-  const [data, setData] = useState([]);
-  const [editData, setEditData] = useState([]);
+interface BarProps {
+  children?: ReactNode;
+  type: "submit" | "span";
+}
+export type Ref = HTMLButtonElement;
+
+function TodoDetailView() {
+  const { token } = useOutletContext<TokenType>();
+  const [toDoData, setTodoData] = useState<TodoList[]>([]);
+  const [editTodoData, setEditTodoData] = useState([]);
   const [open, setOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useRecoilState(refreshState);
 
@@ -30,21 +45,21 @@ function TodoDetailView(token) {
         },
       })
       .then((res) => {
-        setData(res.data.data);
+        setTodoData(res.data.data);
       })
       .catch((error) => {
         console.log(error.response);
       });
   }
 
-  const deleteHandler = (event, id) => {
+  const deleteHandler = (event: MouseEvent<HTMLButtonElement>, id: string) => {
     event.preventDefault();
-    deleteTodoHandler(id, token);
+    deleteTodoHandler(id);
     setRefreshKey((oldKey) => oldKey + 1);
   };
-  const updateHandler = (id) => {
+  const updateHandler = (id: string) => {
     setOpen(true);
-    getTodoByIdHandler(id, token, setEditData);
+    getTodoByIdHandler(id, setEditTodoData);
   };
   const handleClose = () => {
     setOpen(false);
@@ -57,11 +72,11 @@ function TodoDetailView(token) {
   return (
     <Container maxWidth="md" component="main" sx={{ mt: 10 }}>
       <Grid container spacing={5} alignItems="flex-end">
-        {data?.map((ele) => (
-          <Grid item key={ele.title} xs={12} md={4}>
+        {toDoData?.map((todo) => (
+          <Grid item key={todo.title} xs={12} md={4}>
             <Card>
               <CardHeader
-                title={ele.title}
+                title={todo.title}
                 titleTypographyProps={{ align: "center" }}
                 subheaderTypographyProps={{
                   align: "center",
@@ -87,9 +102,9 @@ function TodoDetailView(token) {
                       component="li"
                       variant="subtitle1"
                       align="center"
-                      key={`${ele.id}`}
+                      key={`${todo.id}`}
                     >
-                      {ele.content}
+                      {todo.content}
                     </Typography>
                   </ul>
                 </Box>
@@ -101,10 +116,9 @@ function TodoDetailView(token) {
                   aria-labelledby="modal-modal-title"
                   aria-describedby="modal-modal-description"
                 >
-                  <Bar>
+                  <Bar type={"span"}>
                     <UpdateTodo
-                      editData={editData}
-                      token={token}
+                      editTodoData={editTodoData}
                       setOpen={setOpen}
                       setRefreshKey={setRefreshKey}
                     />
@@ -113,14 +127,14 @@ function TodoDetailView(token) {
                 <Button
                   fullWidth
                   variant="contained"
-                  onClick={() => updateHandler(ele.id)}
+                  onClick={() => updateHandler(todo.id)}
                 >
                   수정
                 </Button>
                 <Button
                   fullWidth
                   variant="contained"
-                  onClick={(event) => deleteHandler(event, ele.id)}
+                  onClick={(event) => deleteHandler(event, todo.id)}
                 >
                   삭제
                 </Button>
@@ -132,10 +146,9 @@ function TodoDetailView(token) {
     </Container>
   );
 }
-const Bar = React.forwardRef((props, ref) => (
+const Bar = forwardRef<Ref, BarProps>((props, ref) => (
   <span {...props} ref={ref}>
     {props.children}
   </span>
 ));
-
 export default TodoDetailView;

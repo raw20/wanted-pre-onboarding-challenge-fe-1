@@ -1,9 +1,10 @@
-import React from "react";
+import React, { FormEvent, SetStateAction, Dispatch } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { updateTodoHandler } from "../../utils/todo/api";
+import { TodoList } from "../../interface/Todo.interface";
 
 const style = {
   position: "absolute",
@@ -17,16 +18,23 @@ const style = {
   p: 4,
 };
 
-function UpdateTodo({ editData, token, setOpen, setRefreshKey }) {
-  const handleSubmit = (event) => {
+interface UpdateTodoProps {
+  editTodoData: TodoList;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+  setRefreshKey: Dispatch<SetStateAction<number>>;
+}
+
+function UpdateTodo({ editTodoData, setOpen, setRefreshKey }: UpdateTodoProps) {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const title = data.get("title");
-    const content = data.get("content");
-    updateTodoHandler(editData.id, token, title, content);
+    const title: FormDataEntryValue = data.get("title") ?? "";
+    const content: FormDataEntryValue = data.get("content") ?? "";
+    updateTodoHandler(editTodoData.id, title, content);
     setOpen(false);
     setRefreshKey((oldKey) => oldKey + 1);
   };
+  console.log(editTodoData);
   return (
     <Box component="form" sx={style} onSubmit={handleSubmit}>
       <Typography
@@ -43,7 +51,7 @@ function UpdateTodo({ editData, token, setOpen, setRefreshKey }) {
         required
         fullWidth
         id="title"
-        label={editData.title}
+        label={editTodoData.title}
         name="title"
         autoFocus
       />
@@ -52,7 +60,7 @@ function UpdateTodo({ editData, token, setOpen, setRefreshKey }) {
         required
         fullWidth
         id="content"
-        label={editData.content}
+        label={editTodoData.content}
         name="content"
         autoFocus
       />

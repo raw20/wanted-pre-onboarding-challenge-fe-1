@@ -1,7 +1,13 @@
 import axios from "axios";
 import { PORT } from "../auth/api";
+import React from "react";
 
-export async function createTodoHandler(title, content, token) {
+const token = window.localStorage.getItem("toDos");
+
+export async function createTodoHandler(
+  title: FormDataEntryValue,
+  content: FormDataEntryValue
+) {
   await axios
     .post(
       `${PORT}/todos`,
@@ -23,7 +29,10 @@ export async function createTodoHandler(title, content, token) {
     });
 }
 
-export async function getTodoByIdHandler(id, token, setEditData) {
+export async function getTodoByIdHandler(
+  id: string,
+  setEditTodoData: React.Dispatch<React.SetStateAction<never[]>>
+) {
   await axios
     .get(`${PORT}/todos/${id}`, {
       headers: {
@@ -31,14 +40,14 @@ export async function getTodoByIdHandler(id, token, setEditData) {
       },
     })
     .then((res) => {
-      setEditData(res.data.data);
+      setEditTodoData(res.data.data);
     })
     .catch((error) => {
       console.log(error.response);
     });
 }
 
-export async function deleteTodoHandler(id, token) {
+export async function deleteTodoHandler(id: string) {
   await axios
     .delete(`${PORT}/todos/${id}`, {
       headers: {
@@ -53,7 +62,11 @@ export async function deleteTodoHandler(id, token) {
     });
 }
 
-export async function updateTodoHandler(id, token, title, content) {
+export async function updateTodoHandler(
+  id: string,
+  title: FormDataEntryValue,
+  content: FormDataEntryValue
+) {
   await axios
     .put(
       `${PORT}/todos/${id}`,

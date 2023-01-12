@@ -2,7 +2,10 @@ import axios from "axios";
 
 export const PORT = "http://localhost:8080";
 
-export function signUpHandler(email, password) {
+export function signUpHandler(
+  email: FormDataEntryValue,
+  password: FormDataEntryValue
+) {
   axios
     .post(`${PORT}/users/create`, {
       email: email,
@@ -21,7 +24,10 @@ export function signUpHandler(email, password) {
     });
 }
 
-export function LoginHandler(email, password) {
+export function LoginHandler(
+  email: FormDataEntryValue,
+  password: FormDataEntryValue
+) {
   axios
     .post(`${PORT}/users/login`, {
       email: email,
