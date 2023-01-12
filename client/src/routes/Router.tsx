@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "../pages/Login";
-import SignUp from "../pages/SignUp";
 import Home from "../pages/Home";
+import SignUp from "../pages/SignUp";
 import TodoList from "../pages/TodoList";
 import TodoListView from "../components/TodoList/TodoListView";
 import TodoDetailView from "../components/TodoList/TodoDetailView";
