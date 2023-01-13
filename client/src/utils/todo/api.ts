@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { PORT } from "../auth/api";
 import React from "react";
 
@@ -24,8 +24,8 @@ export async function createTodoHandler(
     .then((res) => {
       alert("작성이 완료되었습니다.");
     })
-    .catch((error) => {
-      console.log(error.response);
+    .catch((error: any) => {
+      if (error instanceof AxiosError) console.log(error.response);
     });
 }
 
@@ -42,8 +42,8 @@ export async function getTodoByIdHandler(
     .then((res) => {
       setEditTodoData(res.data.data);
     })
-    .catch((error) => {
-      console.log(error.response);
+    .catch((error: any) => {
+      if (error instanceof AxiosError) console.log(error.response);
     });
 }
 
@@ -57,8 +57,8 @@ export async function deleteTodoHandler(id: string) {
     .then((res) => {
       alert("삭제되었습니다.");
     })
-    .catch((error) => {
-      console.log(error.response);
+    .catch((error: any) => {
+      if (error instanceof AxiosError) console.log(error.response);
     });
 }
 
@@ -84,8 +84,8 @@ export async function updateTodoHandler(
       console.log(res);
       alert("수정되었습니다.");
     })
-    .catch((error) => {
-      console.log(error.response);
+    .catch((error: any) => {
+      if (error instanceof AxiosError) console.log(error.response);
       alert("오류로 인해 실패하였습니다.");
     });
 }

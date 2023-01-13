@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 export const PORT = "http://localhost:8080";
 
@@ -17,10 +17,10 @@ export function signUpHandler(
       console.log(res);
     })
     .catch((error) => {
+      if (error instanceof AxiosError) console.log(error.response);
       if (error.response.status === 409) {
         alert(error.response.data.details);
       }
-      console.log(error.response);
     });
 }
 
@@ -37,13 +37,12 @@ export function LoginHandler(
       const token = res.data.token;
       window.localStorage.setItem("toDos", token);
       window.location.replace("/todo");
-
       console.log(res);
     })
     .catch((error) => {
+      if (error instanceof AxiosError) console.log(error.response);
       if (error.response.status === 400) {
         alert(error.response.data.details);
       }
-      console.log(error.response);
     });
 }
