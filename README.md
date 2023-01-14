@@ -36,16 +36,16 @@ API를 이용하여 회원가입/로그인 , ToDo 리스트를 구현하였습�
 
       1.Recoil 삭제
 
-          기존에 적용시킨 Recoil의 기능은 리랜더링 시 axios 무한 호출을 막고자 state값을 만들어
+    기존에 적용시킨 Recoil의 기능은 리랜더링 시 axios 무한 호출을 막고자 state값을 만들어
 
               const [refreshKey, setRefreshKey] = useRecoilState(refreshState);
               useEffect(() => {
                   getTodosHandler();
               }, [refreshKey]);
 
-      아래와 같이 적용시켰지만 적절치 않는 방법이었습니다. 그래서 React-Query를 활용해 API 호출부를 구현할 계획이고 React-Query를 이용하기 전 Redux에 대한 개념을 익힌 뒤 실습할 계획입니다.
+    아래와 같이 적용시켰지만 적절치 않는 방법이었습니다. 그래서 React-Query를 활용해 API 호출부를 구현할 계획이고 React-Query를 이용하기 전 Redux에 대한 개념을 익힌 뒤 실습할 계획입니다.
 
-      2.React-Query 로 교체 후 API호출(예정)
+    2.React-Query 로 교체 후 API호출(예정)
 
 ## 프로젝트 실행 방법
 
