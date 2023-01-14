@@ -4,19 +4,14 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { createTodoHandler } from "../../utils/todo/api";
-import { useRecoilState } from "recoil";
-import { refreshState } from "../../store/atom";
 
 function TodoTextField() {
-  const [refreshKey, setRefreshKey] = useRecoilState(refreshState);
-  console.log(refreshKey);
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const title: FormDataEntryValue = data.get("title") ?? "";
     const content: FormDataEntryValue = data.get("content") ?? "";
     createTodoHandler(title, content);
-    setRefreshKey((oldKey) => oldKey + 1);
   };
   return (
     <Container>

@@ -52,7 +52,6 @@ function TodoDetailView() {
   const deleteHandler = (event: MouseEvent<HTMLButtonElement>, id: string) => {
     event.preventDefault();
     deleteTodoHandler(id);
-    setRefreshKey((oldKey) => oldKey + 1);
   };
   const updateHandler = (id: string) => {
     setOpen(true);
