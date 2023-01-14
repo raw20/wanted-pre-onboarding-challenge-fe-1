@@ -1,11 +1,12 @@
 # React-Query를 이용한 Todo-List 🧾
 
-## 과제 소개 📖
+## 프로젝트 소개 📖
 
 API를 이용하여 회원가입/로그인 , ToDo 리스트를 구현하였습니다.
 
 언어: TypeScript
-라이브러리 : React, Axios, mui/material, React-Query
+
+라이브러리 : React, React-Query, Axios, mui/material
 
 ## 프로젝트 일정 📆
 
