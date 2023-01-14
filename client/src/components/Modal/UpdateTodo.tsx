@@ -21,10 +21,9 @@ const style = {
 interface UpdateTodoProps {
   editTodoData: TodoList;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  setRefreshKey: Dispatch<SetStateAction<number>>;
 }
 
-function UpdateTodo({ editTodoData, setOpen, setRefreshKey }: UpdateTodoProps) {
+function UpdateTodo({ editTodoData, setOpen }: UpdateTodoProps) {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -32,7 +31,6 @@ function UpdateTodo({ editTodoData, setOpen, setRefreshKey }: UpdateTodoProps) {
     const content: FormDataEntryValue = data.get("content") ?? "";
     updateTodoHandler(editTodoData.id, title, content);
     setOpen(false);
-    setRefreshKey((oldKey) => oldKey + 1);
   };
   console.log(editTodoData);
   return (

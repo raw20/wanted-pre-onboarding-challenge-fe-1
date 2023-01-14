@@ -19,8 +19,6 @@ import Modal from "@mui/material/Modal";
 import { PORT } from "../../utils/auth/api";
 import { deleteTodoHandler, getTodoByIdHandler } from "../../utils/todo/api";
 import UpdateTodo from "../Modal/UpdateTodo";
-import { useRecoilState } from "recoil";
-import { refreshState } from "../../store/atom";
 import { TodoList, TokenType } from "../../interface/Todo.interface";
 import { useOutletContext } from "react-router-dom";
 
@@ -35,7 +33,6 @@ function TodoDetailView() {
   const [toDoData, setTodoData] = useState<TodoList[]>([]);
   const [editTodoData, setEditTodoData] = useState([]);
   const [open, setOpen] = useState(false);
-  const [refreshKey, setRefreshKey] = useRecoilState(refreshState);
 
   async function getTodosHandler() {
     await axios
@@ -67,7 +64,7 @@ function TodoDetailView() {
 
   useEffect(() => {
     getTodosHandler();
-  }, [refreshKey]);
+  }, []);
 
   return (
     <Container maxWidth="md" component="main" sx={{ mt: 10 }}>
@@ -117,11 +114,7 @@ function TodoDetailView() {
                   aria-describedby="modal-modal-description"
                 >
                   <Bar type={"span"}>
-                    <UpdateTodo
-                      editTodoData={editTodoData}
-                      setOpen={setOpen}
-                      setRefreshKey={setRefreshKey}
-                    />
+                    <UpdateTodo editTodoData={editTodoData} setOpen={setOpen} />
                   </Bar>
                 </Modal>
                 <Button
