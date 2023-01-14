@@ -57,7 +57,7 @@ function TodoListView() {
     setOpen(true);
     getTodoByIdHandler(id, setEditTodoData);
   };
-  const handleClose = () => {
+  const ModalCloseHandler = () => {
     setOpen(false);
   };
 
@@ -79,7 +79,7 @@ function TodoListView() {
             <CardActions>
               <Modal
                 open={open}
-                onClose={handleClose}
+                onClose={ModalCloseHandler}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
               >
