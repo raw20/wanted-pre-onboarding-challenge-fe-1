@@ -28,7 +28,7 @@ API를 이용하여 회원가입/로그인 , ToDo 리스트를 구현하였습�
       3.  이름이 애매모호한 변수 & 함수명 , 폴더 & 컴포넌트명 변경
           ex)
 
-                  const [data,setData] => const [toDoData, setTodoData]
+          const [data,setData] => const [toDoData, setTodoData]
 
 3.  2차 리팩토링 (23.01.14 ~ 23.01.16) 진행중
 
@@ -42,9 +42,9 @@ API를 이용하여 회원가입/로그인 , ToDo 리스트를 구현하였습�
                   getTodosHandler();
               }, [refreshKey]);
 
-          아래와 같이 적용시켰지만 적절치 않는 방법이었습니다. 그래서 React-Query를 활용해 API 호출부를 구현할 계획이고 React-Query를 이용하여 Redux에 대한 개념을 익힌 뒤 실습할 계획입니다.
+      아래와 같이 적용시켰지만 적절치 않는 방법이었습니다. 그래서 React-Query를 활용해 API 호출부를 구현할 계획이고 React-Query를 이용하기 전 Redux에 대한 개념을 익힌 뒤 실습할 계획입니다.
 
-      2.  React-Query 로 교체 후 API호출(예정)
+      2. React-Query 로 교체 후 API호출(예정)
 
 ## 프로젝트 실행 방법
 
