@@ -1,10 +1,9 @@
 import axios, { AxiosError } from "axios";
 import { PORT } from "../auth/api";
-import React from "react";
 
 const token = window.localStorage.getItem("toDos");
 
-export async function createTodoHandler(
+export async function createTodoController(
   title: FormDataEntryValue,
   content: FormDataEntryValue
 ) {
@@ -22,17 +21,29 @@ export async function createTodoHandler(
       }
     )
     .then((res) => {
-      alert("작성이 완료되었습니다.");
+      return res.data;
     })
     .catch((error: any) => {
       if (error instanceof AxiosError) console.log(error.response);
     });
 }
 
-export async function getTodoByIdHandler(
-  id: string,
-  setEditTodoData: React.Dispatch<React.SetStateAction<never[]>>
-) {
+export async function getTodosController() {
+  await axios
+    .get(`${PORT}/todos`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    })
+    .then((res) => {
+      return res.data.data;
+    })
+    .catch((error: any) => {
+      if (error instanceof AxiosError) console.log(error.response);
+    });
+}
+
+export async function getTodoByIdController(id: string) {
   await axios
     .get(`${PORT}/todos/${id}`, {
       headers: {
@@ -40,14 +51,14 @@ export async function getTodoByIdHandler(
       },
     })
     .then((res) => {
-      setEditTodoData(res.data.data);
+      return res.data;
     })
     .catch((error: any) => {
       if (error instanceof AxiosError) console.log(error.response);
     });
 }
 
-export async function deleteTodoHandler(id: string) {
+export async function deleteTodoController(id: string) {
   await axios
     .delete(`${PORT}/todos/${id}`, {
       headers: {
@@ -55,14 +66,14 @@ export async function deleteTodoHandler(id: string) {
       },
     })
     .then((res) => {
-      alert("삭제되었습니다.");
+      return res.data;
     })
     .catch((error: any) => {
       if (error instanceof AxiosError) console.log(error.response);
     });
 }
 
-export async function updateTodoHandler(
+export async function updateTodoController(
   id: string,
   title: FormDataEntryValue,
   content: FormDataEntryValue
@@ -81,8 +92,7 @@ export async function updateTodoHandler(
       }
     )
     .then((res) => {
-      console.log(res);
-      alert("수정되었습니다.");
+      return res.data;
     })
     .catch((error: any) => {
       if (error instanceof AxiosError) console.log(error.response);

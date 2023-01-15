@@ -1,6 +1,6 @@
 import React, { useState, FormEvent, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
-import { signUpHandler } from "../../utils/auth/api";
+import { signUpController } from "../../utils/auth/api";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
@@ -18,16 +18,16 @@ function SignUpTextField() {
     const email: FormDataEntryValue = data.get("email") ?? "";
     const password: FormDataEntryValue = data.get("password") ?? "";
 
-    signUpHandler(email, password);
+    signUpController(email, password);
   };
-  const handleChangeEmail = (event: ChangeEvent<HTMLInputElement>) => {
+  const emailOnChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     if (!emailRegex.test(event.target.value)) {
       setOkEmail(false);
     } else {
       setOkEmail(true);
     }
   };
-  const handleChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
+  const passwordOnChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.value.length < 8) {
       setOkPassword(false);
     } else {
@@ -47,7 +47,7 @@ function SignUpTextField() {
               label="Email Address"
               name="email"
               autoComplete="email"
-              onChange={handleChangeEmail}
+              onChange={emailOnChangeHandler}
             />
           </Grid>
           <Grid item xs={12}>
@@ -59,7 +59,7 @@ function SignUpTextField() {
               type="password"
               id="password"
               autoComplete="new-password"
-              onChange={handleChangePassword}
+              onChange={passwordOnChangeHandler}
             />
           </Grid>
         </Grid>

@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
-import { LoginHandler } from "../../utils/auth/api";
+import { LoginController } from "../../utils/auth/api";
 
 function LoginTextField() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -13,7 +13,7 @@ function LoginTextField() {
     const email: FormDataEntryValue = data.get("email") ?? "";
     const password: FormDataEntryValue = data.get("password") ?? "";
 
-    LoginHandler(email, password);
+    LoginController(email, password);
   };
   return (
     <>

@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { updateTodoHandler } from "../../utils/todo/api";
+import { updateTodoController } from "../../utils/todo/api";
 import { TodoList } from "../../interface/Todo.interface";
 
 const style = {
@@ -29,7 +29,7 @@ function UpdateTodo({ editTodoData, setOpen }: UpdateTodoProps) {
     const data = new FormData(event.currentTarget);
     const title: FormDataEntryValue = data.get("title") ?? "";
     const content: FormDataEntryValue = data.get("content") ?? "";
-    updateTodoHandler(editTodoData.id, title, content);
+    updateTodoController(editTodoData.id, title, content);
     setOpen(false);
   };
   console.log(editTodoData);

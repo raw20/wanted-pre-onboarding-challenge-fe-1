@@ -9,6 +9,8 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import Header from "../components/Header/Header";
 import TodoTextField from "../components/TextField/TodoTextField";
 import { Link, Navigate, Outlet } from "react-router-dom";
+import { getTodosController } from "../utils/todo/api";
+import { useQuery } from "@tanstack/react-query";
 
 function TodoList() {
   const token = window.localStorage.getItem("toDos");
@@ -16,6 +18,7 @@ function TodoList() {
     alert("토큰이 없거나 만료되어 로그인 페이지로 이동합니다.");
     return <Navigate to="/" />;
   }
+  const { data, isLoading, error } = useQuery("allTodos", getTodosController);
   return (
     <React.Fragment>
       <GlobalStyles

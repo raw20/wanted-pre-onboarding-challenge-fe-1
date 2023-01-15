@@ -16,8 +16,7 @@ import Modal from "@mui/material/Modal";
 import { PORT } from "../../utils/auth/api";
 import { deleteTodoHandler, getTodoByIdHandler } from "../../utils/todo/api";
 import UpdateTodo from "../Modal/UpdateTodo";
-
-import { TodoList, TokenType } from "../../interface/Todo.interface";
+import { TodoList } from "../../interface/Todo.interface";
 import { useOutletContext } from "react-router-dom";
 
 interface BarProps {
@@ -27,24 +26,9 @@ interface BarProps {
 export type Ref = HTMLButtonElement;
 
 function TodoListView() {
-  const { token } = useOutletContext<TokenType>();
   const [toDoData, setTodoData] = useState<TodoList[]>([]);
   const [editTodoData, setEditTodoData] = useState([]);
   const [open, setOpen] = useState(false);
-  async function getTodosHandler() {
-    await axios
-      .get(`${PORT}/todos`, {
-        headers: {
-          Authorization: `${token}`,
-        },
-      })
-      .then((res) => {
-        setTodoData(res.data.data);
-      })
-      .catch((error) => {
-        console.log(error.response);
-      });
-  }
 
   const deleteHandler = (event: MouseEvent<HTMLButtonElement>, id: string) => {
     event.preventDefault();

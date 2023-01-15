@@ -17,7 +17,10 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { PORT } from "../../utils/auth/api";
-import { deleteTodoHandler, getTodoByIdHandler } from "../../utils/todo/api";
+import {
+  deleteTodoController,
+  getTodoByIdController,
+} from "../../utils/todo/api";
 import UpdateTodo from "../Modal/UpdateTodo";
 import { TodoList, TokenType } from "../../interface/Todo.interface";
 import { useOutletContext } from "react-router-dom";
@@ -51,11 +54,11 @@ function TodoDetailView() {
 
   const deleteHandler = (event: MouseEvent<HTMLButtonElement>, id: string) => {
     event.preventDefault();
-    deleteTodoHandler(id);
+    deleteTodoController(id);
   };
   const updateHandler = (id: string) => {
     setOpen(true);
-    getTodoByIdHandler(id, setEditTodoData);
+    getTodoByIdController(id, setEditTodoData);
   };
   const ModalCloseHandler = () => {
     setOpen(false);

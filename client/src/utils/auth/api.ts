@@ -2,7 +2,7 @@ import axios, { AxiosError } from "axios";
 
 export const PORT = "http://localhost:8080";
 
-export function signUpHandler(
+export function signUpController(
   email: FormDataEntryValue,
   password: FormDataEntryValue
 ) {
@@ -24,7 +24,7 @@ export function signUpHandler(
     });
 }
 
-export function LoginHandler(
+export function LoginController(
   email: FormDataEntryValue,
   password: FormDataEntryValue
 ) {
