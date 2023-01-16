@@ -83,7 +83,7 @@ API를 이용하여 회원가입/로그인 , ToDo 리스트를 구현하였습�
                 .then((response) => response.data)
                 .catch((error: any) => {...});
 
-  3. Todo 화면 레이아웃 변경 (예정)
+  3.Todo 화면 레이아웃 변경 (예정)
 
   4.Login/TodoList Router redirect 구현 수정 (예정)
 
