@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { updateTodoController } from "../../utils/todo/api";
-import { TodoList } from "../../interface/Todo.interface";
+import { TodoListType } from "../../interface/Todo.interface";
 
 const style = {
   position: "absolute",
@@ -19,7 +19,7 @@ const style = {
 };
 
 interface UpdateTodoProps {
-  editTodoData: TodoList;
+  editTodoData: TodoListType;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 

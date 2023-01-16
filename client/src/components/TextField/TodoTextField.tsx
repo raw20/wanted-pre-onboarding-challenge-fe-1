@@ -3,7 +3,7 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { createTodoHandler } from "../../utils/todo/api";
+import { createTodoController } from "../../utils/todo/api";
 
 function TodoTextField() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -11,7 +11,7 @@ function TodoTextField() {
     const data = new FormData(event.currentTarget);
     const title: FormDataEntryValue = data.get("title") ?? "";
     const content: FormDataEntryValue = data.get("content") ?? "";
-    createTodoHandler(title, content);
+    createTodoController(title, content);
   };
   return (
     <Container>

@@ -3,11 +3,11 @@ import { PORT } from "../auth/api";
 
 const token = window.localStorage.getItem("toDos");
 
-export async function createTodoController(
+export const createTodoController = (
   title: FormDataEntryValue,
   content: FormDataEntryValue
-) {
-  await axios
+) =>
+  axios
     .post(
       `${PORT}/todos`,
       {
@@ -20,65 +20,52 @@ export async function createTodoController(
         },
       }
     )
-    .then((res) => {
-      return res.data;
-    })
+    .then((response) => response.data)
     .catch((error: any) => {
       if (error instanceof AxiosError) console.log(error.response);
     });
-}
 
-export async function getTodosController() {
-  await axios
+export const getTodosController = () =>
+  axios
     .get(`${PORT}/todos`, {
       headers: {
         Authorization: `${token}`,
       },
     })
-    .then((res) => {
-      return res.data.data;
-    })
+    .then((response) => response.data)
     .catch((error: any) => {
       if (error instanceof AxiosError) console.log(error.response);
     });
-}
 
-export async function getTodoByIdController(id: string) {
-  await axios
+export const getTodoByIdController = (id: string) =>
+  axios
     .get(`${PORT}/todos/${id}`, {
       headers: {
         Authorization: `${token}`,
       },
     })
-    .then((res) => {
-      return res.data;
-    })
+    .then((response) => response.data)
     .catch((error: any) => {
       if (error instanceof AxiosError) console.log(error.response);
     });
-}
 
-export async function deleteTodoController(id: string) {
-  await axios
+export const deleteTodoController = (id: string) =>
+  axios
     .delete(`${PORT}/todos/${id}`, {
       headers: {
         Authorization: `${token}`,
       },
     })
-    .then((res) => {
-      return res.data;
-    })
+    .then((response) => response.data)
     .catch((error: any) => {
       if (error instanceof AxiosError) console.log(error.response);
     });
-}
-
-export async function updateTodoController(
+export const updateTodoController = (
   id: string,
   title: FormDataEntryValue,
   content: FormDataEntryValue
-) {
-  await axios
+) =>
+  axios
     .put(
       `${PORT}/todos/${id}`,
       {
@@ -91,11 +78,7 @@ export async function updateTodoController(
         },
       }
     )
-    .then((res) => {
-      return res.data;
-    })
+    .then((response) => response.data)
     .catch((error: any) => {
       if (error instanceof AxiosError) console.log(error.response);
-      alert("오류로 인해 실패하였습니다.");
     });
-}

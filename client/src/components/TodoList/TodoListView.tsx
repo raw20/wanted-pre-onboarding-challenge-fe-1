@@ -1,11 +1,4 @@
-import axios from "axios";
-import React, {
-  useEffect,
-  useState,
-  MouseEvent,
-  forwardRef,
-  ReactNode,
-} from "react";
+import React, { useState, MouseEvent, forwardRef, ReactNode } from "react";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Box from "@mui/material/Box";
@@ -14,7 +7,10 @@ import CardActions from "@mui/material/CardActions";
 import Container from "@mui/material/Container";
 import Modal from "@mui/material/Modal";
 import { PORT } from "../../utils/auth/api";
-import { deleteTodoHandler, getTodoByIdHandler } from "../../utils/todo/api";
+import {
+  deleteTodoController,
+  getTodoByIdController,
+} from "../../utils/todo/api";
 import UpdateTodo from "../Modal/UpdateTodo";
 import { TodoList } from "../../interface/Todo.interface";
 import { useOutletContext } from "react-router-dom";
@@ -32,19 +28,15 @@ function TodoListView() {
 
   const deleteHandler = (event: MouseEvent<HTMLButtonElement>, id: string) => {
     event.preventDefault();
-    deleteTodoHandler(id);
+    deleteTodoController(id);
   };
   const updateHandler = (id: string) => {
     setOpen(true);
-    getTodoByIdHandler(id, setEditTodoData);
+    getTodoByIdController(id, setEditTodoData);
   };
   const ModalCloseHandler = () => {
     setOpen(false);
   };
-
-  useEffect(() => {
-    getTodosHandler();
-  }, []);
 
   return (
     <Container maxWidth="md" component="main" sx={{ mt: 10 }}>

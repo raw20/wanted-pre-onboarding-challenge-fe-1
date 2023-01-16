@@ -1,4 +1,5 @@
 import React from "react";
+import { useQuery } from "@tanstack/react-query";
 import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import GlobalStyles from "@mui/material/GlobalStyles";
@@ -10,15 +11,20 @@ import Header from "../components/Header/Header";
 import TodoTextField from "../components/TextField/TodoTextField";
 import { Link, Navigate, Outlet } from "react-router-dom";
 import { getTodosController } from "../utils/todo/api";
-import { useQuery } from "@tanstack/react-query";
+import { TodoListType } from "../interface/Todo.interface";
 
 function TodoList() {
+  const { data: todos, isLoading } = useQuery<TodoListType[]>({
+    queryKey: ["Todos"],
+    queryFn: getTodosController,
+  });
+  console.log(todos);
   const token = window.localStorage.getItem("toDos");
   if (!token) {
     alert("토큰이 없거나 만료되어 로그인 페이지로 이동합니다.");
     return <Navigate to="/" />;
   }
-  const { data, isLoading, error } = useQuery("allTodos", getTodosController);
+
   return (
     <React.Fragment>
       <GlobalStyles
@@ -68,7 +74,7 @@ function TodoList() {
           </Link>
         </ButtonGroup>
       </Box>
-      <Outlet context={{ token }} />
+      <Outlet context={{ todos }} />
     </React.Fragment>
   );
 }
