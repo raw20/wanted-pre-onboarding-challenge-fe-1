@@ -1,4 +1,5 @@
 import React, { useState, MouseEvent, forwardRef, ReactNode } from "react";
+import { useQuery } from "@tanstack/react-query";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Box from "@mui/material/Box";
@@ -6,14 +7,13 @@ import Button from "@mui/material/Button";
 import CardActions from "@mui/material/CardActions";
 import Container from "@mui/material/Container";
 import Modal from "@mui/material/Modal";
-import { PORT } from "../../utils/auth/api";
 import {
   deleteTodoController,
   getTodoByIdController,
 } from "../../utils/todo/api";
 import UpdateTodo from "../Modal/UpdateTodo";
-import { TodoList } from "../../interface/Todo.interface";
-import { useOutletContext } from "react-router-dom";
+import { getTodosController } from "../../utils/todo/api";
+import { TodoListType } from "../../interface/Todo.interface";
 
 interface BarProps {
   children?: ReactNode;
@@ -22,8 +22,11 @@ interface BarProps {
 export type Ref = HTMLButtonElement;
 
 function TodoListView() {
-  const [toDoData, setTodoData] = useState<TodoList[]>([]);
-  const [editTodoData, setEditTodoData] = useState([]);
+  const { data: todos, isLoading } = useQuery({
+    queryKey: ["todos"],
+    queryFn: getTodosController,
+  });
+  console.log(todos);
   const [open, setOpen] = useState(false);
 
   const deleteHandler = (event: MouseEvent<HTMLButtonElement>, id: string) => {
@@ -32,7 +35,7 @@ function TodoListView() {
   };
   const updateHandler = (id: string) => {
     setOpen(true);
-    getTodoByIdController(id, setEditTodoData);
+    // getTodoByIdController(id, setEditTodoData);
   };
   const ModalCloseHandler = () => {
     setOpen(false);
@@ -46,7 +49,7 @@ function TodoListView() {
           mb: 2,
         }}
       >
-        {toDoData?.map((todo) => (
+        {todos?.map((todo) => (
           <ListItemButton component="a" href="#simple-list" key={todo.id}>
             <ListItemText primary={todo?.title} />
             <CardActions>
@@ -57,7 +60,7 @@ function TodoListView() {
                 aria-describedby="modal-modal-description"
               >
                 <Bar type={"span"}>
-                  <UpdateTodo editTodoData={editTodoData} setOpen={setOpen} />
+                  <UpdateTodo setOpen={setOpen} />
                 </Bar>
               </Modal>
               <Button

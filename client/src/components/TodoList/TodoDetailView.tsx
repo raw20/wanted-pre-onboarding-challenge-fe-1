@@ -1,11 +1,5 @@
-import axios from "axios";
-import React, {
-  useEffect,
-  useState,
-  MouseEvent,
-  forwardRef,
-  ReactNode,
-} from "react";
+import React, { useState, MouseEvent, forwardRef, ReactNode } from "react";
+import { useQuery } from "@tanstack/react-query";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -22,8 +16,8 @@ import {
   getTodoByIdController,
 } from "../../utils/todo/api";
 import UpdateTodo from "../Modal/UpdateTodo";
-import { TodoList, TokenType } from "../../interface/Todo.interface";
-import { useOutletContext } from "react-router-dom";
+import { getTodosController } from "../../utils/todo/api";
+import { TodoListType } from "../../interface/Todo.interface";
 
 interface BarProps {
   children?: ReactNode;
@@ -32,25 +26,11 @@ interface BarProps {
 export type Ref = HTMLButtonElement;
 
 function TodoDetailView() {
-  const { token } = useOutletContext<TokenType>();
-  const [toDoData, setTodoData] = useState<TodoList[]>([]);
-  const [editTodoData, setEditTodoData] = useState([]);
+  const { data: todos, isLoading } = useQuery({
+    queryKey: ["todos"],
+    queryFn: getTodosController,
+  });
   const [open, setOpen] = useState(false);
-
-  async function getTodosHandler() {
-    await axios
-      .get(`${PORT}/todos`, {
-        headers: {
-          Authorization: `${token}`,
-        },
-      })
-      .then((res) => {
-        setTodoData(res.data.data);
-      })
-      .catch((error) => {
-        console.log(error.response);
-      });
-  }
 
   const deleteHandler = (event: MouseEvent<HTMLButtonElement>, id: string) => {
     event.preventDefault();
@@ -58,86 +38,81 @@ function TodoDetailView() {
   };
   const updateHandler = (id: string) => {
     setOpen(true);
-    getTodoByIdController(id, setEditTodoData);
+    //getTodoByIdController(id, setEditTodoData);
   };
   const ModalCloseHandler = () => {
     setOpen(false);
   };
 
-  useEffect(() => {
-    getTodosHandler();
-  }, []);
-
   return (
     <Container maxWidth="md" component="main" sx={{ mt: 10 }}>
-      <Grid container spacing={5} alignItems="flex-end">
-        {toDoData?.map((todo) => (
-          <Grid item key={todo.title} xs={12} md={4}>
-            <Card>
-              <CardHeader
-                title={todo.title}
-                titleTypographyProps={{ align: "center" }}
-                subheaderTypographyProps={{
-                  align: "center",
-                }}
+      {todos?.map((todo) => (
+        <Grid item key={todo.title} xs={12} md={4}>
+          <Card>
+            <CardHeader
+              title={todo.title}
+              titleTypographyProps={{ align: "center" }}
+              subheaderTypographyProps={{
+                align: "center",
+              }}
+              sx={{
+                backgroundColor: (theme) =>
+                  theme.palette.mode === "light"
+                    ? theme.palette.grey[200]
+                    : theme.palette.grey[700],
+              }}
+            />
+            <CardContent>
+              <Box
                 sx={{
-                  backgroundColor: (theme) =>
-                    theme.palette.mode === "light"
-                      ? theme.palette.grey[200]
-                      : theme.palette.grey[700],
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "baseline",
+                  height: 50,
+                  mb: 2,
                 }}
-              />
-              <CardContent>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "baseline",
-                    mb: 2,
-                  }}
-                >
-                  <ul>
-                    <Typography
-                      component="li"
-                      variant="subtitle1"
-                      align="center"
-                      key={`${todo.id}`}
-                    >
-                      {todo.content}
-                    </Typography>
-                  </ul>
-                </Box>
-              </CardContent>
-              <CardActions>
-                <Modal
-                  open={open}
-                  onClose={ModalCloseHandler}
-                  aria-labelledby="modal-modal-title"
-                  aria-describedby="modal-modal-description"
-                >
-                  <Bar type={"span"}>
-                    <UpdateTodo editTodoData={editTodoData} setOpen={setOpen} />
-                  </Bar>
-                </Modal>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  onClick={() => updateHandler(todo.id)}
-                >
-                  수정
-                </Button>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  onClick={(event) => deleteHandler(event, todo.id)}
-                >
-                  삭제
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+              >
+                <ul>
+                  <Typography
+                    component="li"
+                    variant="subtitle1"
+                    align="center"
+                    key={`${todo.id}`}
+                  >
+                    {todo.content}
+                  </Typography>
+                </ul>
+              </Box>
+            </CardContent>
+            <CardActions>
+              <Modal
+                open={open}
+                onClose={ModalCloseHandler}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <Bar type={"span"}>
+                  <UpdateTodo setOpen={setOpen} />
+                </Bar>
+              </Modal>
+              <Button
+                fullWidth
+                variant="contained"
+                onClick={() => updateHandler(todo.id)}
+              >
+                수정
+              </Button>
+              <Button
+                fullWidth
+                variant="contained"
+                onClick={(event) => deleteHandler(event, todo.id)}
+              >
+                삭제
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+      ))}
     </Container>
   );
 }

@@ -23,16 +23,15 @@ interface UpdateTodoProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-function UpdateTodo({ editTodoData, setOpen }: UpdateTodoProps) {
+function UpdateTodo({ setOpen }: UpdateTodoProps) {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const title: FormDataEntryValue = data.get("title") ?? "";
     const content: FormDataEntryValue = data.get("content") ?? "";
-    updateTodoController(editTodoData.id, title, content);
+    //updateTodoController(editTodoData.id, title, content);
     setOpen(false);
   };
-  console.log(editTodoData);
   return (
     <Box component="form" sx={style} onSubmit={handleSubmit}>
       <Typography

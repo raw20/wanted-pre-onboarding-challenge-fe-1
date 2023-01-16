@@ -1,4 +1,5 @@
 import axios, { AxiosError } from "axios";
+import { TodoListType } from "../../interface/Todo.interface";
 import { PORT } from "../auth/api";
 
 const token = window.localStorage.getItem("toDos");
@@ -6,7 +7,7 @@ const token = window.localStorage.getItem("toDos");
 export const createTodoController = (
   title: FormDataEntryValue,
   content: FormDataEntryValue
-) =>
+): Promise<TodoListType> =>
   axios
     .post(
       `${PORT}/todos`,
@@ -25,14 +26,14 @@ export const createTodoController = (
       if (error instanceof AxiosError) console.log(error.response);
     });
 
-export const getTodosController = () =>
+export const getTodosController = (): Promise<TodoListType[]> =>
   axios
     .get(`${PORT}/todos`, {
       headers: {
         Authorization: `${token}`,
       },
     })
-    .then((response) => response.data)
+    .then((response) => response.data.data)
     .catch((error: any) => {
       if (error instanceof AxiosError) console.log(error.response);
     });

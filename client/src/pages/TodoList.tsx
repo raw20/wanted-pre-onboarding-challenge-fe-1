@@ -1,5 +1,4 @@
 import React from "react";
-import { useQuery } from "@tanstack/react-query";
 import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import GlobalStyles from "@mui/material/GlobalStyles";
@@ -10,15 +9,8 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import Header from "../components/Header/Header";
 import TodoTextField from "../components/TextField/TodoTextField";
 import { Link, Navigate, Outlet } from "react-router-dom";
-import { getTodosController } from "../utils/todo/api";
-import { TodoListType } from "../interface/Todo.interface";
 
 function TodoList() {
-  const { data: todos, isLoading } = useQuery<TodoListType[]>({
-    queryKey: ["Todos"],
-    queryFn: getTodosController,
-  });
-  console.log(todos);
   const token = window.localStorage.getItem("toDos");
   if (!token) {
     alert("토큰이 없거나 만료되어 로그인 페이지로 이동합니다.");
@@ -55,26 +47,27 @@ function TodoList() {
         >
           할일을 추가하고 삭제하고 수정할 수 있습니다.
         </Typography>
+        <TodoTextField />
+
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "baseline",
+            mb: 10,
+          }}
+        >
+          <ButtonGroup variant="outlined" aria-label="outlined button group">
+            <Link to="/todo/list" style={{ color: "#42a5f5" }}>
+              <Button>목록 보기</Button>
+            </Link>
+            <Link to="/todo/detail" style={{ color: "#42a5f5" }}>
+              <Button>상세 보기</Button>
+            </Link>
+          </ButtonGroup>
+        </Box>
+        <Outlet />
       </Container>
-      <TodoTextField />
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "baseline",
-          mb: 10,
-        }}
-      >
-        <ButtonGroup variant="outlined" aria-label="outlined button group">
-          <Link to="/todo/list" style={{ color: "#42a5f5" }}>
-            <Button>목록 보기</Button>
-          </Link>
-          <Link to="/todo/detail" style={{ color: "#42a5f5" }}>
-            <Button>상세 보기</Button>
-          </Link>
-        </ButtonGroup>
-      </Box>
-      <Outlet context={{ todos }} />
     </React.Fragment>
   );
 }
