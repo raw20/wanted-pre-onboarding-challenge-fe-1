@@ -53,9 +53,39 @@ API를 이용하여 회원가입/로그인 , ToDo 리스트를 구현하였습�
 
   아래와 같이 적용시켰지만 적절치 않는 방법이었습니다. 그래서 React-Query를 활용해 API 호출부를 구현할 계획이고 React-Query를 이용하기 전 Redux에 대한 개념을 익힌 뒤 실습할 계획입니다.
 
-  2.React-Query 로 교체 후 API호출 (예정)
+  2.React-Query 로 교체 후 API호출
 
-  3.Login/TodoList Router redirect 구현 수정 (예정)
+  UseQuery 사용
+
+          //TodoList.tsx
+
+          const { data: todos, isLoading } = useQuery<TodoListType[]>({
+          queryKey: ["Todos"],
+          queryFn: getTodosController,
+          });
+
+  기존 API 호출 함수
+
+          export function getTodosController() {
+          axios
+            .get(...)
+            .then((res) => {
+              return res.data
+            })
+            .catch((error) => {...});
+          }
+
+  수정 후
+
+            export const getTodosController = () =>
+              axios
+                .get(...)
+                .then((response) => response.data)
+                .catch((error: any) => {...});
+
+  3. Todo 화면 레이아웃 변경 (예정)
+
+  4.Login/TodoList Router redirect 구현 수정 (예정)
 
   기존 코드에서는 Home.tsx에서
 
