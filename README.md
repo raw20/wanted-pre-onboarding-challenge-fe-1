@@ -32,11 +32,11 @@ API를 이용하여 회원가입/로그인 , ToDo 리스트를 구현하였습�
 
   수정 전
 
-                const [data,setData]
+                const [data,setData] = useState([])
 
   수정 후
 
-                const [toDoData, setTodoData]
+                const [toDoData, setTodoData] = useState([])
 
 ### 2차 리팩토링 (23.01.14 ~ 23.01.16) 진행중
 
