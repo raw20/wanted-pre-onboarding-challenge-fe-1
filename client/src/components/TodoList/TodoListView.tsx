@@ -1,5 +1,5 @@
 import React, { useState, MouseEvent, forwardRef, ReactNode } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Box from "@mui/material/Box";
@@ -7,13 +7,9 @@ import Button from "@mui/material/Button";
 import CardActions from "@mui/material/CardActions";
 import Container from "@mui/material/Container";
 import Modal from "@mui/material/Modal";
-import {
-  deleteTodoController,
-  getTodoByIdController,
-} from "../../utils/todo/api";
+import { deleteTodoController } from "../../utils/todo/api";
 import UpdateTodo from "../Modal/UpdateTodo";
 import { getTodosController } from "../../utils/todo/api";
-import { TodoListType } from "../../interface/Todo.interface";
 
 interface BarProps {
   children?: ReactNode;
@@ -22,20 +18,27 @@ interface BarProps {
 export type Ref = HTMLButtonElement;
 
 function TodoListView() {
+  const [id, setId] = useState("");
+  const queryClient = useQueryClient();
   const { data: todos, isLoading } = useQuery({
     queryKey: ["todos"],
     queryFn: getTodosController,
   });
-  console.log(todos);
+  const deleteTodoMutation = useMutation({
+    mutationFn: (id: string) => deleteTodoController(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+  });
   const [open, setOpen] = useState(false);
 
   const deleteHandler = (event: MouseEvent<HTMLButtonElement>, id: string) => {
     event.preventDefault();
-    deleteTodoController(id);
+    deleteTodoMutation.mutate(id);
   };
   const updateHandler = (id: string) => {
     setOpen(true);
-    // getTodoByIdController(id, setEditTodoData);
+    setId(id);
   };
   const ModalCloseHandler = () => {
     setOpen(false);
@@ -50,23 +53,13 @@ function TodoListView() {
         }}
       >
         {todos?.map((todo) => (
-          <ListItemButton component="a" href="#simple-list" key={todo.id}>
+          <ListItemButton component="a" href="#simple-list" key={todo?.id}>
             <ListItemText primary={todo?.title} />
             <CardActions>
-              <Modal
-                open={open}
-                onClose={ModalCloseHandler}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-              >
-                <Bar type={"span"}>
-                  <UpdateTodo setOpen={setOpen} />
-                </Bar>
-              </Modal>
               <Button
                 fullWidth
                 variant="contained"
-                onClick={() => updateHandler(todo.id)}
+                onClick={() => updateHandler(todo?.id)}
               >
                 수정
               </Button>
@@ -81,6 +74,16 @@ function TodoListView() {
           </ListItemButton>
         ))}
       </Box>
+      <Modal
+        open={open}
+        onClose={ModalCloseHandler}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Bar type={"span"}>
+          <UpdateTodo id={id} setOpen={setOpen} />
+        </Bar>
+      </Modal>
     </Container>
   );
 }

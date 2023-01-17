@@ -3,8 +3,12 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { updateTodoController } from "../../utils/todo/api";
-import { TodoListType } from "../../interface/Todo.interface";
+import {
+  getTodoByIdController,
+  updateTodoController,
+} from "../../utils/todo/api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { TodoDataByIdType } from "../../interface/Todo.interface";
 
 const style = {
   position: "absolute",
@@ -19,16 +23,29 @@ const style = {
 };
 
 interface UpdateTodoProps {
-  editTodoData: TodoListType;
+  id: string;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-function UpdateTodo({ setOpen }: UpdateTodoProps) {
+function UpdateTodo({ id, setOpen }: UpdateTodoProps) {
+  const queryClient = useQueryClient();
+  const { data: todo, isLoading } = useQuery({
+    queryKey: ["todo"],
+    queryFn: () => getTodoByIdController(id),
+  });
+  const updateTodoMutation = useMutation({
+    mutationFn: ({ title, content, id }: TodoDataByIdType) =>
+      updateTodoController(title, content, id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+  });
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const title: FormDataEntryValue = data.get("title") ?? "";
     const content: FormDataEntryValue = data.get("content") ?? "";
+    updateTodoMutation.mutate({ title, content, id: id });
     //updateTodoController(editTodoData.id, title, content);
     setOpen(false);
   };
@@ -48,7 +65,7 @@ function UpdateTodo({ setOpen }: UpdateTodoProps) {
         required
         fullWidth
         id="title"
-        label={editTodoData.title}
+        label={todo?.title}
         name="title"
         autoFocus
       />
@@ -57,7 +74,7 @@ function UpdateTodo({ setOpen }: UpdateTodoProps) {
         required
         fullWidth
         id="content"
-        label={editTodoData.content}
+        label={todo?.content}
         name="content"
         autoFocus
       />

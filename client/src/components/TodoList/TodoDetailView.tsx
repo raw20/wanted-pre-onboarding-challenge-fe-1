@@ -1,5 +1,5 @@
 import React, { useState, MouseEvent, forwardRef, ReactNode } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -10,14 +10,9 @@ import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { PORT } from "../../utils/auth/api";
-import {
-  deleteTodoController,
-  getTodoByIdController,
-} from "../../utils/todo/api";
+import { deleteTodoController } from "../../utils/todo/api";
 import UpdateTodo from "../Modal/UpdateTodo";
 import { getTodosController } from "../../utils/todo/api";
-import { TodoListType } from "../../interface/Todo.interface";
 
 interface BarProps {
   children?: ReactNode;
@@ -26,19 +21,28 @@ interface BarProps {
 export type Ref = HTMLButtonElement;
 
 function TodoDetailView() {
+  const [id, setId] = useState("");
+  const queryClient = useQueryClient();
   const { data: todos, isLoading } = useQuery({
     queryKey: ["todos"],
     queryFn: getTodosController,
+  });
+
+  const deleteTodoMutation = useMutation({
+    mutationFn: (id: string) => deleteTodoController(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
   });
   const [open, setOpen] = useState(false);
 
   const deleteHandler = (event: MouseEvent<HTMLButtonElement>, id: string) => {
     event.preventDefault();
-    deleteTodoController(id);
+    deleteTodoMutation.mutate(id);
   };
   const updateHandler = (id: string) => {
     setOpen(true);
-    //getTodoByIdController(id, setEditTodoData);
+    setId(id);
   };
   const ModalCloseHandler = () => {
     setOpen(false);
@@ -85,16 +89,6 @@ function TodoDetailView() {
               </Box>
             </CardContent>
             <CardActions>
-              <Modal
-                open={open}
-                onClose={ModalCloseHandler}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-              >
-                <Bar type={"span"}>
-                  <UpdateTodo setOpen={setOpen} />
-                </Bar>
-              </Modal>
               <Button
                 fullWidth
                 variant="contained"
@@ -113,6 +107,16 @@ function TodoDetailView() {
           </Card>
         </Grid>
       ))}
+      <Modal
+        open={open}
+        onClose={ModalCloseHandler}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Bar type={"span"}>
+          <UpdateTodo id={id} setOpen={setOpen} />
+        </Bar>
+      </Modal>
     </Container>
   );
 }

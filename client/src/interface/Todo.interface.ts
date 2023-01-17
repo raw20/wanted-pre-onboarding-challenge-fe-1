@@ -6,6 +6,13 @@ export interface TodoListType {
   updatedAt: string;
 }
 
-export interface TokenType {
-  token: string | null;
+export interface TodoDataType {
+  title: FormDataEntryValue;
+  content: FormDataEntryValue;
+}
+
+export interface TodoDataByIdType {
+  title: FormDataEntryValue;
+  content: FormDataEntryValue;
+  id: string;
 }

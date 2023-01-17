@@ -38,14 +38,14 @@ export const getTodosController = (): Promise<TodoListType[]> =>
       if (error instanceof AxiosError) console.log(error.response);
     });
 
-export const getTodoByIdController = (id: string) =>
+export const getTodoByIdController = (id: string): Promise<TodoListType> =>
   axios
     .get(`${PORT}/todos/${id}`, {
       headers: {
         Authorization: `${token}`,
       },
     })
-    .then((response) => response.data)
+    .then((response) => response.data.data)
     .catch((error: any) => {
       if (error instanceof AxiosError) console.log(error.response);
     });
@@ -62,10 +62,10 @@ export const deleteTodoController = (id: string) =>
       if (error instanceof AxiosError) console.log(error.response);
     });
 export const updateTodoController = (
-  id: string,
   title: FormDataEntryValue,
-  content: FormDataEntryValue
-) =>
+  content: FormDataEntryValue,
+  id: string
+): Promise<TodoListType> =>
   axios
     .put(
       `${PORT}/todos/${id}`,
