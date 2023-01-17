@@ -38,7 +38,7 @@ API를 이용하여 회원가입/로그인 , ToDo 리스트를 구현하였습�
 
                 const [toDoData, setTodoData] = useState([])
 
-### 2차 리팩토링 (23.01.14 ~ 23.01.16) 진행중
+### 2차 리팩토링 (23.01.14 ~ 23.01.16)
 
 - 구현내용
 
@@ -46,46 +46,62 @@ API를 이용하여 회원가입/로그인 , ToDo 리스트를 구현하였습�
 
   기존에 적용시킨 Recoil의 기능은 리랜더링 시 axios 무한 호출을 막고자 state값을 만들어
 
-                const [refreshKey, setRefreshKey] = useRecoilState(refreshState);
-                useEffect(() => {
-                    getTodosHandler();
-                }, [refreshKey]);
+                  const [refreshKey, setRefreshKey] = useRecoilState(refreshState);
+                  useEffect(() => {
+                      getTodosHandler();
+                  }, [refreshKey]);
 
   아래와 같이 적용시켰지만 적절치 않는 방법이었습니다. 그래서 React-Query를 활용해 API 호출부를 구현할 계획이고 React-Query를 이용하기 전 Redux에 대한 개념을 익힌 뒤 실습할 계획입니다.
 
   2.React-Query 로 교체 후 API호출
 
-  UseQuery 사용
+  1.  UseQuery 사용
 
-          //TodoList.tsx
+             //TodoList.tsx
 
-          const { data: todos, isLoading } = useQuery<TodoListType[]>({
-          queryKey: ["Todos"],
-          queryFn: getTodosController,
-          });
+             const { data: todos, isLoading } = useQuery<TodoListType[]>({
+             queryKey: ["todos"],
+             queryFn: getTodosController,
+             });
 
   기존 API 호출 함수
 
-          export function getTodosController() {
-          axios
-            .get(...)
-            .then((res) => {
-              return res.data
-            })
-            .catch((error) => {...});
-          }
+            export function getTodosController() {
+            axios
+              .get(...)
+              .then((res) => {
+                return res.data
+              })
+              .catch((error) => {...});
+            }
 
   수정 후
 
-            export const getTodosController = () =>
-              axios
-                .get(...)
-                .then((response) => response.data)
-                .catch((error: any) => {...});
+              export const getTodosController = (): Promise<TodoListType> =>
+                axios
+                  .get(...)
+                  .then((response) => response.data)
+                  .catch((error: any) => {...});
 
-  3.Todo 화면 레이아웃 변경 (예정)
+  2.  UseMutation 사용
 
-  4.Login/TodoList Router redirect 구현 수정 (예정)
+          //TodoTextFiled.tsx
+
+               const createTodoMutation = useMutation({
+                  mutationFn: ({ title, content }: TodoDataType) =>
+                  createTodoController(title, content),
+                  onSuccess: () => {
+                  queryClient.invalidateQueries({ queryKey: ["todos"] });
+                },
+
+                 const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+                    ...
+                    createTodoMutation.mutate({ title, content });
+                };
+
+  참고 레퍼런스 : https://tkdodo.eu/blog/mastering-mutations-in-react-query
+
+  3.Login/TodoList Router redirect 구현 수정 (예정)
 
   기존 코드에서는 Home.tsx에서
 
@@ -102,6 +118,10 @@ API를 이용하여 회원가입/로그인 , ToDo 리스트를 구현하였습�
   아래와 같이 token값이 존재하면 /todo로 존재하지 않으면 /login으로 이동시키게 구현하였습니다.
   근데 주소창에 "/"를 치면 token이 존재하지 않을 때 Todo리스트 화면이 조금이라도 보이는지 확인을 아직 못했는데 애초에
   Home.tsx에서는 redirect기능말곤 구현이 안되어 있고 직접적으로 랜더링하는것이 없고 로그인, ToDo컴포넌트에 navigate를 쓴게 아니라서 상관없지 않을까라고 생각도 해봤는데 정확히 모르기 때문에 조금 더 공부하고 수정하도록 하겠습니다.
+
+### 3차 리팩토링 (23.01.17 ~ 23.01.19)
+
+    준비중..
 
 ## 프로젝트 실행 화면 💻
 
