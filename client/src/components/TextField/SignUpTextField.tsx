@@ -1,14 +1,19 @@
 import React, { useState, FormEvent, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
-import { signUpController } from "../../utils/auth/api";
+import { signUpController } from "../../lib/api/auth";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import { theme } from "../../styles/theme";
 
 function SignUpTextField() {
-  const [okEmail, setOkEmail] = useState(false);
-  const [okPassword, setOkPassword] = useState(false);
+  const [isEmailConfirm, setIsEmailConfirm] = useState(false);
+  const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
+  const [passwordValidation, setPasswordValidation] =
+    useState<HTMLInputElement>();
+  const [errorMessage, setErrorMessage] = useState(" ");
   const emailRegex =
     /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
 
@@ -22,16 +27,33 @@ function SignUpTextField() {
   };
   const emailOnChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     if (!emailRegex.test(event.target.value)) {
-      setOkEmail(false);
+      setIsEmailConfirm(false);
+      setErrorMessage("유효하지 않는 이메일입니다.");
     } else {
-      setOkEmail(true);
+      setIsEmailConfirm(true);
+      setErrorMessage(" ");
     }
   };
   const passwordOnChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.value.length < 8) {
-      setOkPassword(false);
+      setIsPasswordConfirm(false);
+      setPasswordValidation(event.target);
+      setErrorMessage("비밀번호는 최소 8자 이하이어야합니다.");
     } else {
-      setOkPassword(true);
+      setErrorMessage(" ");
+    }
+  };
+  const passwordConfirmOnChangeHandler = (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    if (event.target.value !== passwordValidation?.value) {
+      setIsPasswordConfirm(false);
+      setErrorMessage("비밀번호가 일치하지 않습니다.");
+    } else if (event.target.value.length < 8) {
+      setIsPasswordConfirm(false);
+    } else {
+      setIsPasswordConfirm(true);
+      setErrorMessage(" ");
     }
   };
 
@@ -44,7 +66,7 @@ function SignUpTextField() {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="이메일"
               name="email"
               autoComplete="email"
               onChange={emailOnChangeHandler}
@@ -55,15 +77,36 @@ function SignUpTextField() {
               required
               fullWidth
               name="password"
-              label="Password"
+              label="비밀번호"
               type="password"
               id="password"
               autoComplete="new-password"
               onChange={passwordOnChangeHandler}
             />
           </Grid>
+          <Grid item xs={12}>
+            <TextField
+              required
+              fullWidth
+              name="password-confirm"
+              label="비밀번호 확인  "
+              type="password"
+              id="password-confirm"
+              autoComplete="password-confirm"
+              onChange={passwordConfirmOnChangeHandler}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography
+              variant="subtitle2"
+              gutterBottom
+              sx={{ color: theme.palette.warning.main, fontWeight: "bold" }}
+            >
+              {errorMessage}
+            </Typography>
+          </Grid>
         </Grid>
-        {okEmail && okPassword ? (
+        {isEmailConfirm && isPasswordConfirm ? (
           <Button
             type="submit"
             fullWidth
@@ -80,7 +123,15 @@ function SignUpTextField() {
 
         <Grid container justifyContent="flex-end">
           <Grid item>
-            <Link to="/login">로그인화면으로 이동</Link>
+            <Link to="/login">
+              <Typography
+                variant="subtitle2"
+                gutterBottom
+                sx={{ color: theme.palette.info.main }}
+              >
+                이미 회원이신가요?
+              </Typography>
+            </Link>
           </Grid>
         </Grid>
       </Box>

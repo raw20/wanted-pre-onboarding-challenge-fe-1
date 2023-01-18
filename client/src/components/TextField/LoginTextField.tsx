@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
-import { LoginController } from "../../utils/auth/api";
+import { LoginController } from "../../lib/api/auth";
 
 function LoginTextField() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {

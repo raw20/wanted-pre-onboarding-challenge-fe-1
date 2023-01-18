@@ -12,14 +12,12 @@ export function signUpController(
       password: password,
     })
     .then((res) => {
-      alert("계정이 성공적으로 생성되었습니다.");
       window.location.replace("/login");
-      console.log(res);
     })
     .catch((error) => {
-      if (error instanceof AxiosError) console.log(error.response);
+      if (error instanceof AxiosError) return error.response;
       if (error.response.status === 409) {
-        alert(error.response.data.details);
+        return error.response.data.details;
       }
     });
 }
@@ -37,12 +35,11 @@ export function LoginController(
       const token = res.data.token;
       window.localStorage.setItem("toDos", token);
       window.location.replace("/todo");
-      console.log(res);
     })
     .catch((error) => {
-      if (error instanceof AxiosError) console.log(error.response);
+      if (error instanceof AxiosError) return error.response;
       if (error.response.status === 400) {
-        alert(error.response.data.details);
+        return error.response.data.details;
       }
     });
 }

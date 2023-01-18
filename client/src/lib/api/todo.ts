@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
 import { TodoListType } from "../../interface/Todo.interface";
-import { PORT } from "../auth/api";
+import { PORT } from "./auth";
 
 const token = window.localStorage.getItem("toDos");
 

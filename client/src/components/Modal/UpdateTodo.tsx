@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import {
   getTodoByIdController,
   updateTodoController,
-} from "../../utils/todo/api";
+} from "../../lib/api/todo";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { TodoDataByIdType } from "../../interface/Todo.interface";
 

@@ -10,9 +10,9 @@ import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { deleteTodoController } from "../../utils/todo/api";
+import { deleteTodoController } from "../../lib/api/todo";
 import UpdateTodo from "../Modal/UpdateTodo";
-import { getTodosController } from "../../utils/todo/api";
+import { getTodosController } from "../../lib/api/todo";
 
 interface BarProps {
   children?: ReactNode;
