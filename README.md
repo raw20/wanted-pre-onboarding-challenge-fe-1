@@ -127,6 +127,58 @@ API를 이용하여 회원가입/로그인 , ToDo 리스트를 구현하였습�
 아래와 같이 token값이 존재하면 /todo로 존재하지 않으면 /login으로 이동시키게 구현하였습니다.
 근데 주소창에 "/"를 치면 token이 존재하지 않을 때 Todo리스트 화면이 조금이라도 보이는지 확인을 아직 못했는데 애초에
 Home.tsx에서는 redirect기능말곤 구현이 안되어 있고 직접적으로 랜더링하는것이 없고 로그인, ToDo컴포넌트에 navigate를 쓴게 아니라서 상관없지 않을까라고 생각도 해봤는데 정확히 모르기 때문에 조금 더 공부하고 수정하도록 하겠습니다.
+ 
+4. 폴더구조 변경
+ 
+   기존 폴더구조 : 
+   
+   -components : Header,Footer,Modal 등 재사용이 가능하고 분리된 컴포넌트들을 모아둔 폴더
+   
+   -interface : Typescript 인터페이스를 모아둔 폴더
+   
+   -pages : router로 이동되는 컴포넌트를 모아둔 폴더
+   
+   -routes : 컴포넌트들의 router가 선언된 파일을 모아둔 폴더
+   
+   -utils : API 함수를 모아둔 폴더
+   
+          📦src
+           ┣ 📂components
+           ┃ ┣ 📂Footer
+           ┃ ┃ ┗ 📜Footer.tsx
+           ┃ ┣ 📂Header
+           ┃ ┃ ┗ 📜Header.tsx
+           ┃ ┣ 📂Modal
+           ┃ ┃ ┗ 📜UpdateTodo.tsx
+           ┃ ┣ 📂TextField
+           ┃ ┃ ┣ 📜LoginTextField.tsx
+           ┃ ┃ ┣ 📜SignUpTextField.tsx
+           ┃ ┃ ┗ 📜TodoTextField.tsx
+           ┃ ┗ 📂TodoList
+           ┃ ┃ ┣ 📜TodoDetailView.tsx
+           ┃ ┃ ┗ 📜TodoListView.tsx
+           ┣ 📂interface
+           ┃ ┗ 📜Todo.interface.ts
+           ┣ 📂pages
+           ┃ ┣ 📜Home.tsx
+           ┃ ┣ 📜Login.tsx
+           ┃ ┣ 📜SignUp.tsx
+           ┃ ┗ 📜TodoList.tsx
+           ┣ 📂routes
+           ┃ ┗ 📜Router.tsx
+           ┣ 📂utils
+           ┃ ┣ 📂auth
+           ┃ ┃ ┗ 📜api.ts
+           ┃ ┗ 📂todo
+           ┃ ┃ ┗ 📜api.ts
+           ┣ 📜App.css
+           ┣ 📜App.test.tsx
+           ┣ 📜App.tsx
+           ┣ 📜index.css
+           ┣ 📜index.tsx
+           ┣ 📜logo.svg
+           ┣ 📜reportWebVitals.ts
+           ┗ 📜setupTests.ts
 
 ## 프로젝트 실행 화면 💻
 
