@@ -1,4 +1,4 @@
-import React, { FormEvent } from "react";
+import React, { FormEvent, useState } from "react";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -7,15 +7,18 @@ import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
 import { LoginController } from "../../lib/api/auth";
 import { theme } from "../../styles/theme";
+import useLogin from "../../lib/hook/mutation/useLogin";
 
 function LoginTextField() {
+  const [errorMessage, setErrorMessage] = useState(" ");
+  const { responseMessage, LoginMutation } = useLogin();
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email: FormDataEntryValue = data.get("email") ?? "";
     const password: FormDataEntryValue = data.get("password") ?? "";
-
-    LoginController(email, password);
+    LoginMutation({ email, password });
+    setErrorMessage(responseMessage);
   };
   return (
     <>
@@ -40,7 +43,15 @@ function LoginTextField() {
           id="password"
           autoComplete="current-password"
         />
-
+        <Grid item xs={12}>
+          <Typography
+            variant="subtitle2"
+            gutterBottom
+            sx={{ color: theme.palette.warning.main, fontWeight: "bold" }}
+          >
+            {errorMessage}
+          </Typography>
+        </Grid>
         <Button
           type="submit"
           fullWidth
