@@ -2,30 +2,28 @@ import axios, { AxiosError } from "axios";
 
 export const PORT = "http://localhost:8080";
 
-export function signUpController(
+export const signUpController = (
   email: FormDataEntryValue,
   password: FormDataEntryValue
-) {
+) =>
   axios
     .post(`${PORT}/users/create`, {
       email: email,
       password: password,
     })
-    .then((res) => {
+    .then((response) => {
+      alert("회원가입이 완료되었습니다.");
       window.location.replace("/login");
+      return response.data.message;
     })
-    .catch((error) => {
-      if (error instanceof AxiosError) return error.response;
-      if (error.response.status === 409) {
-        return error.response.data.details;
-      }
+    .catch((error: any) => {
+      if (error instanceof AxiosError) return error.response?.data.details;
     });
-}
 
-export function LoginController(
+export const LoginController = (
   email: FormDataEntryValue,
   password: FormDataEntryValue
-) {
+) => {
   axios
     .post(`${PORT}/users/login`, {
       email: email,
@@ -42,4 +40,4 @@ export function LoginController(
         return error.response.data.details;
       }
     });
-}
+};

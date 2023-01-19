@@ -1,30 +1,32 @@
 import React, { useState, FormEvent, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
-import { signUpController } from "../../lib/api/auth";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { theme } from "../../styles/theme";
+import { emailRegex } from "../../utils/regex";
+import useSignUp from "../../lib/mutation/useSignUp";
 
 function SignUpTextField() {
   const [isEmailConfirm, setIsEmailConfirm] = useState(false);
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
+  const [password, setPassword] = useState<HTMLInputElement>();
   const [passwordValidation, setPasswordValidation] =
     useState<HTMLInputElement>();
   const [errorMessage, setErrorMessage] = useState(" ");
-  const emailRegex =
-    /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+  const { responseMessage, signupMutation } = useSignUp();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email: FormDataEntryValue = data.get("email") ?? "";
     const password: FormDataEntryValue = data.get("password") ?? "";
-
-    signUpController(email, password);
+    signupMutation({ email, password });
+    setErrorMessage(responseMessage);
   };
+
   const emailOnChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     if (!emailRegex.test(event.target.value)) {
       setIsEmailConfirm(false);
@@ -35,18 +37,22 @@ function SignUpTextField() {
     }
   };
   const passwordOnChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target);
     if (event.target.value.length < 8) {
       setIsPasswordConfirm(false);
-      setPasswordValidation(event.target);
-      setErrorMessage("비밀번호는 최소 8자 이하이어야합니다.");
+      setErrorMessage("비밀번호는 최소 8자 이상이어야합니다.");
+    } else if (event.target.value !== passwordValidation?.value) {
+      setErrorMessage("비밀번호가 일치하지 않습니다.");
     } else {
+      setIsPasswordConfirm(true);
       setErrorMessage(" ");
     }
   };
   const passwordConfirmOnChangeHandler = (
     event: ChangeEvent<HTMLInputElement>
   ) => {
-    if (event.target.value !== passwordValidation?.value) {
+    setPasswordValidation(event.target);
+    if (event.target.value !== password?.value) {
       setIsPasswordConfirm(false);
       setErrorMessage("비밀번호가 일치하지 않습니다.");
     } else if (event.target.value.length < 8) {
@@ -106,7 +112,9 @@ function SignUpTextField() {
             </Typography>
           </Grid>
         </Grid>
-        {isEmailConfirm && isPasswordConfirm ? (
+        {isEmailConfirm &&
+        isPasswordConfirm &&
+        password?.value === passwordValidation?.value ? (
           <Button
             type="submit"
             fullWidth

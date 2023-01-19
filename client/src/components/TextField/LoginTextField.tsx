@@ -2,9 +2,11 @@ import React, { FormEvent } from "react";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
 import { LoginController } from "../../lib/api/auth";
+import { theme } from "../../styles/theme";
 
 function LoginTextField() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -47,10 +49,16 @@ function LoginTextField() {
         >
           로그인
         </Button>
-        <Grid container>
+        <Grid container justifyContent="flex-end">
           <Grid item>
             <Link to="/signup">
-              <p>회원가입 하기</p>
+              <Typography
+                variant="subtitle2"
+                gutterBottom
+                sx={{ color: theme.palette.info.main }}
+              >
+                회원가입 하기
+              </Typography>
             </Link>
           </Grid>
         </Grid>
