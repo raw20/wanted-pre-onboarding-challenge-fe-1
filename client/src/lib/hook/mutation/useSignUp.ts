@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { UserDataType } from "../../interface/User.interface";
-import { signUpController } from "../api/auth";
+import { UserDataType } from "../../../interface/User.interface";
+import { signUpController } from "../../api/auth";
 
 function useSignUp() {
   const { data: responseMessage, mutate: signupMutation } = useMutation({

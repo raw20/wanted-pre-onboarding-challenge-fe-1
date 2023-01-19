@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { theme } from "../../styles/theme";
 import { emailRegex } from "../../utils/regex";
-import useSignUp from "../../lib/mutation/useSignUp";
+import useSignUp from "../../lib/hook/mutation/useSignUp";
 
 function SignUpTextField() {
   const [isEmailConfirm, setIsEmailConfirm] = useState(false);
