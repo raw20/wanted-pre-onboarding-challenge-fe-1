@@ -1,8 +1,7 @@
-import React, { useState, MouseEvent, forwardRef, ReactNode } from "react";
+import React, { useState, forwardRef, ReactNode } from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import Grid from "@mui/material/Grid";
@@ -11,7 +10,9 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import UpdateTodo from "../Modal/UpdateTodo";
 import useGetTodos from "../../lib/hook/queries/useGetTodos";
-import useDeleteTodo from "../../lib/hook/mutation/useDeleteTodo";
+
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import TodoEdit from "../Menu/TodoEdit";
 
 interface BarProps {
   children?: ReactNode;
@@ -22,19 +23,16 @@ export type Ref = HTMLButtonElement;
 function TodoDetailView() {
   const [id, setId] = useState("");
   const todos = useGetTodos();
-  const deleteTodoMutation = useDeleteTodo();
-  const [open, setOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
 
-  const deleteHandler = (event: MouseEvent<HTMLButtonElement>, id: string) => {
-    event.preventDefault();
-    deleteTodoMutation.mutate(id);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
   };
-  const updateHandler = (id: string) => {
-    setOpen(true);
-    setId(id);
-  };
+
   const ModalCloseHandler = () => {
-    setOpen(false);
+    setOpenModal(false);
   };
 
   return (
@@ -54,6 +52,28 @@ function TodoDetailView() {
                     ? theme.palette.grey[200]
                     : theme.palette.grey[700],
               }}
+              action={
+                <>
+                  <IconButton
+                    aria-label="more"
+                    id="long-button"
+                    aria-controls={open ? "long-menu" : undefined}
+                    aria-expanded={open ? "true" : undefined}
+                    aria-haspopup="true"
+                    onClick={handleClick}
+                  >
+                    <MoreVertIcon />
+                  </IconButton>
+                  <TodoEdit
+                    open={open}
+                    anchorEl={anchorEl}
+                    setAnchorEl={setAnchorEl}
+                    setOpenModal={setOpenModal}
+                    setId={setId}
+                    todoId={todo?.id}
+                  />
+                </>
+              }
             />
             <CardContent>
               <Box
@@ -77,33 +97,17 @@ function TodoDetailView() {
                 </ul>
               </Box>
             </CardContent>
-            <CardActions>
-              <Button
-                fullWidth
-                variant="contained"
-                onClick={() => updateHandler(todo.id)}
-              >
-                수정
-              </Button>
-              <Button
-                fullWidth
-                variant="contained"
-                onClick={(event) => deleteHandler(event, todo.id)}
-              >
-                삭제
-              </Button>
-            </CardActions>
           </Card>
         </Grid>
       ))}
       <Modal
-        open={open}
+        open={openModal}
         onClose={ModalCloseHandler}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Bar type={"span"}>
-          <UpdateTodo id={id} setOpen={setOpen} />
+          <UpdateTodo id={id} setOpenModal={setOpenModal} />
         </Bar>
       </Modal>
     </Container>

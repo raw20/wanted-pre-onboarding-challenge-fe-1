@@ -8,10 +8,13 @@ import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Header from "../components/Header/Header";
 import TodoTextField from "../components/TextField/TodoTextField";
-import { Link, Navigate, Outlet } from "react-router-dom";
+import { Link, Navigate, Outlet, useMatch } from "react-router-dom";
+import { theme } from "../styles/theme";
 
 function TodoList() {
   const token = window.localStorage.getItem("toDos");
+  const listMatch = useMatch("/todo/list");
+  const detailMatch = useMatch("/todo/detail");
   if (!token) {
     alert("토큰이 없거나 만료되어 로그인 페이지로 이동합니다.");
     return <Navigate to="/" />;
@@ -58,11 +61,31 @@ function TodoList() {
           }}
         >
           <ButtonGroup variant="outlined" aria-label="outlined button group">
-            <Link to="/todo/list" style={{ color: "#42a5f5" }}>
-              <Button>목록 보기</Button>
+            <Link to="/todo/list">
+              <Button
+                sx={{
+                  backgroundColor:
+                    listMatch !== null ? theme.palette.primary.main : "#fff",
+                  color:
+                    listMatch !== null ? "#fff" : theme.palette.primary.main,
+                  fontWeight: "bold",
+                }}
+              >
+                목록 보기
+              </Button>
             </Link>
-            <Link to="/todo/detail" style={{ color: "#42a5f5" }}>
-              <Button>상세 보기</Button>
+            <Link to="/todo/detail">
+              <Button
+                sx={{
+                  backgroundColor:
+                    detailMatch !== null ? theme.palette.primary.main : "#fff",
+                  color:
+                    detailMatch !== null ? "#fff" : theme.palette.primary.main,
+                  fontWeight: "bold",
+                }}
+              >
+                상세 보기
+              </Button>
             </Link>
           </ButtonGroup>
         </Box>

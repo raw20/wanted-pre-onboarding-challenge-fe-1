@@ -20,10 +20,10 @@ const style = {
 
 interface UpdateTodoProps {
   id: string;
-  setOpen: Dispatch<SetStateAction<boolean>>;
+  setOpenModal: Dispatch<SetStateAction<boolean>>;
 }
 
-function UpdateTodo({ id, setOpen }: UpdateTodoProps) {
+function UpdateTodo({ id, setOpenModal }: UpdateTodoProps) {
   const todo = useGetTodoById(id);
   const updateTodoMutation = useUpdateTodo();
 
@@ -33,7 +33,7 @@ function UpdateTodo({ id, setOpen }: UpdateTodoProps) {
     const title: FormDataEntryValue = data.get("title") ?? "";
     const content: FormDataEntryValue = data.get("content") ?? "";
     updateTodoMutation.mutate({ title, content, id: id });
-    setOpen(false);
+    setOpenModal(false);
   };
   return (
     <Box component="form" sx={style} onSubmit={handleSubmit}>
@@ -72,7 +72,7 @@ function UpdateTodo({ id, setOpen }: UpdateTodoProps) {
         type="submit"
         variant="contained"
         sx={{ mt: 3, mb: 2, ml: 1 }}
-        onClick={() => setOpen(false)}
+        onClick={() => setOpenModal(false)}
       >
         취소하기
       </Button>
