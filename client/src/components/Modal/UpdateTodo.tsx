@@ -3,12 +3,8 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import {
-  getTodoByIdController,
-  updateTodoController,
-} from "../../lib/api/todo";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { TodoDataByIdType } from "../../interface/Todo.interface";
+import useUpdateTodo from "../../lib/hook/mutation/useUpdateTodo";
+import useGetTodoById from "../../lib/hook/queries/useGetTodoById";
 
 const style = {
   position: "absolute",
@@ -28,25 +24,15 @@ interface UpdateTodoProps {
 }
 
 function UpdateTodo({ id, setOpen }: UpdateTodoProps) {
-  const queryClient = useQueryClient();
-  const { data: todo, isLoading } = useQuery({
-    queryKey: ["todo"],
-    queryFn: () => getTodoByIdController(id),
-  });
-  const updateTodoMutation = useMutation({
-    mutationFn: ({ title, content, id }: TodoDataByIdType) =>
-      updateTodoController(title, content, id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["todos"] });
-    },
-  });
+  const todo = useGetTodoById(id);
+  const updateTodoMutation = useUpdateTodo();
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const title: FormDataEntryValue = data.get("title") ?? "";
     const content: FormDataEntryValue = data.get("content") ?? "";
     updateTodoMutation.mutate({ title, content, id: id });
-    //updateTodoController(editTodoData.id, title, content);
     setOpen(false);
   };
   return (

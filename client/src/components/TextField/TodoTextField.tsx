@@ -3,21 +3,10 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { createTodoController } from "../../lib/api/todo";
-import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { TodoDataType } from "../../interface/Todo.interface";
+import useCreateTodo from "../../lib/hook/mutation/useCreateTodo";
 
 function TodoTextField() {
-  const queryClient = useQueryClient();
-
-  const createTodoMutation = useMutation({
-    mutationFn: ({ title, content }: TodoDataType) =>
-      createTodoController(title, content),
-    onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["todos"] });
-    },
-  });
+  const createTodoMutation = useCreateTodo();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

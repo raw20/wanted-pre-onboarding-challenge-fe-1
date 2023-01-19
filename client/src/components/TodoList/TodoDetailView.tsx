@@ -1,5 +1,4 @@
 import React, { useState, MouseEvent, forwardRef, ReactNode } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -10,9 +9,9 @@ import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { deleteTodoController } from "../../lib/api/todo";
 import UpdateTodo from "../Modal/UpdateTodo";
-import { getTodosController } from "../../lib/api/todo";
+import useGetTodos from "../../lib/hook/queries/useGetTodos";
+import useDeleteTodo from "../../lib/hook/mutation/useDeleteTodo";
 
 interface BarProps {
   children?: ReactNode;
@@ -22,18 +21,8 @@ export type Ref = HTMLButtonElement;
 
 function TodoDetailView() {
   const [id, setId] = useState("");
-  const queryClient = useQueryClient();
-  const { data: todos, isLoading } = useQuery({
-    queryKey: ["todos"],
-    queryFn: getTodosController,
-  });
-
-  const deleteTodoMutation = useMutation({
-    mutationFn: (id: string) => deleteTodoController(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["todos"] });
-    },
-  });
+  const todos = useGetTodos();
+  const deleteTodoMutation = useDeleteTodo();
   const [open, setOpen] = useState(false);
 
   const deleteHandler = (event: MouseEvent<HTMLButtonElement>, id: string) => {
