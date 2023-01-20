@@ -11,7 +11,7 @@ import useGetTodos from "../../lib/hook/queries/useGetTodos";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import DeleteConfirm from "../Modal/DeleteConfirm";
-import { BarProps, Ref } from "../../Types/IProps";
+import { BarProps, Ref } from "../../types/IProps";
 
 function TodoListView() {
   const [id, setId] = useState("");
