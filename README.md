@@ -105,11 +105,47 @@ const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
   
   참고 레퍼런스 (2) : https://maxkim-j.github.io/posts/react-query-preview/
 
-### 3차 리팩토링 (23.01.17 ~ 23.01.20)
+### 3차 리팩토링 (23.01.17 ~ 23.01.21)
 
 #### 구현내용
 
-- [ ] 사용자 편의성을 위해 UI 수정 (진행중)
+- [ ] 사용자 편의성을 위해 UI 수정 
+
+- 회원가입 / 로그인 
+
+  - 회원가입 시 비밀번호 확인 추가
+
+  - 회원가입 / 로그인 실패 시 사용자에게 피드백 제공 : 더 빠르게 회원가입 제공
+
+리팩토링 전 vs 리팩토링 후
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/62588402/213727283-a478c605-092f-4afb-b019-6071bbf06dbf.PNG" width="450" height="460"/>
+  <img src="https://user-images.githubusercontent.com/62588402/213727388-1f60ed14-e2ec-47c9-bd28-f2ee68d924f3.PNG" width="450" height="460"/>
+</p>
+
+- Todo-List 
+
+  - TextField 사이즈 변경
+  
+  - 버튼 --> 아이콘 버튼으로 변경 
+
+리팩토링 전 vs 리팩토링 후
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/62588402/213730594-772b6cf4-873e-4672-9a1d-ec80f50bca63.png" width="450" height="260"/>
+  <img src="https://user-images.githubusercontent.com/62588402/213729978-a1351d0c-1243-44b2-9afa-17d4c38ec870.PNG" width="450" height="260"/>
+ </p>
+  
+  - 삭제/ 수정 버튼을 누르면 한번 더 확인해 주는 Modal창 구현 : 사용자가 실수로 클릭했을 경우를 방지
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/62588402/213731371-3642076c-67be-4c61-8341-5bc806361bbc.PNG" width="650" height="320"/>
+ </p>
+
+ - Todo 상세보기에서 버튼을 아이콘 형식으로 변경 : 모바일 버전으로 했을 때 삭제 버튼이 원치않게 터치가 될 수 있을거 같다고 생각하여 다음과 같이 개선
+ 
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/62588402/213736120-c70b1962-743a-45aa-bd50-3a52b2207165.PNG" width="250" height="250"/>
+ </p>
 
 - [ ] API함수 호출 후 token값이 없을때 예외사항 처리 (예정)
 
@@ -149,43 +185,116 @@ Home.tsx에서는 redirect기능말곤 구현이 안되어 있고 직접적으�
 
     - utils : API 함수를 모아둔 폴더
 
-           📦src
-            ┣ 📂components
-            ┃ ┣ 📂Footer
-            ┃ ┃ ┗ 📜Footer.tsx
-            ┃ ┣ 📂Header
-            ┃ ┃ ┗ 📜Header.tsx
-            ┃ ┣ 📂Modal
-            ┃ ┃ ┗ 📜UpdateTodo.tsx
-            ┃ ┣ 📂TextField
-            ┃ ┃ ┣ 📜LoginTextField.tsx
-            ┃ ┃ ┣ 📜SignUpTextField.tsx
-            ┃ ┃ ┗ 📜TodoTextField.tsx
-            ┃ ┗ 📂TodoList
-            ┃ ┃ ┣ 📜TodoDetailView.tsx
-            ┃ ┃ ┗ 📜TodoListView.tsx
-            ┣ 📂interface
-            ┃ ┗ 📜Todo.interface.ts
-            ┣ 📂pages
-            ┃ ┣ 📜Home.tsx
-            ┃ ┣ 📜Login.tsx
-            ┃ ┣ 📜SignUp.tsx
-            ┃ ┗ 📜TodoList.tsx
-            ┣ 📂routes
-            ┃ ┗ 📜Router.tsx
-            ┣ 📂utils
-            ┃ ┣ 📂auth
-            ┃ ┃ ┗ 📜api.ts
-            ┃ ┗ 📂todo
-            ┃ ┃ ┗ 📜api.ts
-            ┣ 📜App.css
-            ┣ 📜App.test.tsx
-            ┣ 📜App.tsx
-            ┣ 📜index.css
-            ┣ 📜index.tsx
-            ┣ 📜logo.svg
-            ┣ 📜reportWebVitals.ts
-            ┗ 📜setupTests.ts
+```jsonc
+📦src
+┣ 📂components
+┃ ┣ 📂Footer
+┃ ┃ ┗ 📜Footer.tsx
+┃ ┣ 📂Header
+┃ ┃ ┗ 📜Header.tsx
+┃ ┣ 📂Modal
+┃ ┃ ┗ 📜UpdateTodo.tsx
+┃ ┣ 📂TextField
+┃ ┃ ┣ 📜LoginTextField.tsx
+┃ ┃ ┣ 📜SignUpTextField.tsx
+┃ ┃ ┗ 📜TodoTextField.tsx
+┃ ┗ 📂TodoList
+┃ ┃ ┣ 📜TodoDetailView.tsx
+┃ ┃ ┗ 📜TodoListView.tsx
+┣ 📂interface
+┃ ┗ 📜Todo.interface.ts
+┣ 📂pages
+┃ ┣ 📜Home.tsx
+┃ ┣ 📜Login.tsx
+┃ ┣ 📜SignUp.tsx
+┃ ┗ 📜TodoList.tsx
+┣ 📂routes
+┃ ┗ 📜Router.tsx
+┣ 📂utils
+┃ ┣ 📂auth
+┃ ┃ ┗ 📜api.ts
+┃ ┗ 📂todo
+┃ ┃ ┗ 📜api.ts
+┣ 📜App.css
+┣ 📜App.test.tsx
+┣ 📜App.tsx
+┣ 📜index.css
+┣ 📜index.tsx
+┣ 📜logo.svg
+┣ 📜reportWebVitals.ts
+┗ 📜setupTests.ts
+```
+- 리팩토링 후 폴더구조
+
+    - components,pages,routes : 기존과 동일
+    
+    - types : interface 폴더 명칭 변경
+
+    - lib : api 호출 함수와 hook를 관리하는 
+
+    - utils : 상수나 공통 함수를 모아둔 폴더
+
+```jsonc
+📦src
+ ┣ 📂components
+ ┃ ┣ 📂Footer
+ ┃ ┃ ┗ 📜Footer.tsx
+ ┃ ┣ 📂Header
+ ┃ ┃ ┗ 📜Header.tsx
+ ┃ ┣ 📂Menu
+ ┃ ┃ ┗ 📜TodoEdit.tsx
+ ┃ ┣ 📂Modal
+ ┃ ┃ ┣ 📜DeleteConfirm.tsx
+ ┃ ┃ ┣ 📜UpdateConfirm.tsx
+ ┃ ┃ ┗ 📜UpdateTodo.tsx
+ ┃ ┣ 📂TextField
+ ┃ ┃ ┣ 📜LoginTextField.tsx
+ ┃ ┃ ┣ 📜SignUpTextField.tsx
+ ┃ ┃ ┗ 📜TodoTextField.tsx
+ ┃ ┗ 📂TodoList
+ ┃ ┃ ┣ 📜TodoDetailView.tsx
+ ┃ ┃ ┗ 📜TodoListView.tsx
+ ┣ 📂lib
+ ┃ ┣ 📂api
+ ┃ ┃ ┣ 📜auth.ts
+ ┃ ┃ ┗ 📜todo.ts
+ ┃ ┗ 📂hook
+ ┃ ┃ ┣ 📂mutation
+ ┃ ┃ ┃ ┣ 📜useCreateTodo.ts
+ ┃ ┃ ┃ ┣ 📜useDeleteTodo.ts
+ ┃ ┃ ┃ ┣ 📜useLogin.ts
+ ┃ ┃ ┃ ┣ 📜useSignUp.ts
+ ┃ ┃ ┃ ┗ 📜useUpdateTodo.ts
+ ┃ ┃ ┗ 📂queries
+ ┃ ┃ ┃ ┣ 📜useGetTodoById.ts
+ ┃ ┃ ┃ ┗ 📜useGetTodos.ts
+ ┣ 📂pages
+ ┃ ┣ 📜Home.tsx
+ ┃ ┣ 📜Login.tsx
+ ┃ ┣ 📜SignUp.tsx
+ ┃ ┗ 📜TodoList.tsx
+ ┣ 📂routes
+ ┃ ┗ 📜Router.tsx
+ ┣ 📂styles
+ ┃ ┣ 📜modal.ts
+ ┃ ┗ 📜theme.ts
+ ┣ 📂types
+ ┃ ┣ 📜IProps.ts
+ ┃ ┣ 📜PaletteColor.ts
+ ┃ ┣ 📜Todo.interface.ts
+ ┃ ┗ 📜User.interface.ts
+ ┣ 📂utils
+ ┃ ┗ 📜regex.ts
+ ┣ 📜App.css
+ ┣ 📜App.test.tsx
+ ┣ 📜App.tsx
+ ┣ 📜index.css
+ ┣ 📜index.tsx
+ ┣ 📜logo.svg
+ ┣ 📜reportWebVitals.ts
+ ┗ 📜setupTests.ts
+```
+      
 
 ## 프로젝트 실행 화면 💻
 
