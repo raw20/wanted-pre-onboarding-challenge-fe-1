@@ -11,7 +11,7 @@ interface ITodoEditProps {
   setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
   setId: React.Dispatch<React.SetStateAction<string>>;
-  todoId: string;
+  id: string;
 }
 
 function TodoEdit({
@@ -20,41 +20,41 @@ function TodoEdit({
   setAnchorEl,
   setOpenModal,
   setId,
-  todoId,
+  id,
 }: ITodoEditProps) {
   const deleteTodoMutation = useDeleteTodo();
-
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const deleteHandler = (
-    event: MouseEvent<HTMLButtonElement>,
-    todoId: string
-  ) => {
+  const deleteHandler = (event: MouseEvent<HTMLButtonElement>, id: string) => {
     event.preventDefault();
-    deleteTodoMutation.mutate(todoId);
+    setAnchorEl(null);
+    deleteTodoMutation.mutate(id);
   };
-  const updateHandler = (todoId: string) => {
+  const updateHandler = (id: string) => {
     setOpenModal(true);
-    setId(todoId);
+    setAnchorEl(null);
+    setId(id);
   };
   return (
-    <Menu
-      id="long-menu"
-      MenuListProps={{
-        "aria-labelledby": "long-button",
-      }}
-      anchorEl={anchorEl}
-      open={open}
-      onClose={handleClose}
-    >
-      <IconButton onClick={() => updateHandler(todoId)}>
-        <EditOutlinedIcon />
-      </IconButton>
-      <IconButton onClick={(event) => deleteHandler(event, todoId)}>
-        <DeleteOutlinedIcon />
-      </IconButton>
-    </Menu>
+    <>
+      <Menu
+        id="long-menu"
+        MenuListProps={{
+          "aria-labelledby": "long-button",
+        }}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+      >
+        <IconButton onClick={() => updateHandler(id)}>
+          <EditOutlinedIcon />
+        </IconButton>
+        <IconButton onClick={(event) => deleteHandler(event, id)}>
+          <DeleteOutlinedIcon />
+        </IconButton>
+      </Menu>
+    </>
   );
 }
 

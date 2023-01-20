@@ -27,8 +27,9 @@ function TodoDetailView() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  const handleClick = (event: React.MouseEvent<HTMLElement>, id: string) => {
     setAnchorEl(event.currentTarget);
+    setId(id);
   };
 
   const ModalCloseHandler = () => {
@@ -60,7 +61,7 @@ function TodoDetailView() {
                     aria-controls={open ? "long-menu" : undefined}
                     aria-expanded={open ? "true" : undefined}
                     aria-haspopup="true"
-                    onClick={handleClick}
+                    onClick={(event) => handleClick(event, todo.id)}
                   >
                     <MoreVertIcon />
                   </IconButton>
@@ -70,7 +71,7 @@ function TodoDetailView() {
                     setAnchorEl={setAnchorEl}
                     setOpenModal={setOpenModal}
                     setId={setId}
-                    todoId={todo?.id}
+                    id={id}
                   />
                 </>
               }
