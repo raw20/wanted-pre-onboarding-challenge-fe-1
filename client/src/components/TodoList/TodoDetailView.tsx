@@ -1,4 +1,4 @@
-import React, { useState, forwardRef, ReactNode } from "react";
+import React, { useState, forwardRef } from "react";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Card from "@mui/material/Card";
@@ -13,17 +13,12 @@ import useGetTodos from "../../lib/hook/queries/useGetTodos";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import TodoEdit from "../Menu/TodoEdit";
-
-interface BarProps {
-  children?: ReactNode;
-  type: "submit" | "span";
-}
-export type Ref = HTMLButtonElement;
+import { BarProps, Ref } from "../../interface/IProps";
 
 function TodoDetailView() {
   const [id, setId] = useState("");
   const todos = useGetTodos();
-  const [openModal, setOpenModal] = useState(false);
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -33,7 +28,7 @@ function TodoDetailView() {
   };
 
   const ModalCloseHandler = () => {
-    setOpenModal(false);
+    setOpenUpdateModal(false);
   };
 
   return (
@@ -69,7 +64,7 @@ function TodoDetailView() {
                     open={open}
                     anchorEl={anchorEl}
                     setAnchorEl={setAnchorEl}
-                    setOpenModal={setOpenModal}
+                    setOpenUpdateModal={setOpenUpdateModal}
                     setId={setId}
                     id={id}
                   />
@@ -102,13 +97,13 @@ function TodoDetailView() {
         </Grid>
       ))}
       <Modal
-        open={openModal}
+        open={openUpdateModal}
         onClose={ModalCloseHandler}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Bar type={"span"}>
-          <UpdateTodo id={id} setOpenModal={setOpenModal} />
+          <UpdateTodo id={id} setOpenUpdateModal={setOpenUpdateModal} />
         </Bar>
       </Modal>
     </Container>

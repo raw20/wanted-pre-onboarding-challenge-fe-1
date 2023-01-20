@@ -1,39 +1,42 @@
-import React, { FormEvent, SetStateAction, Dispatch } from "react";
+import React, {
+  FormEvent,
+  SetStateAction,
+  Dispatch,
+  useState,
+  forwardRef,
+} from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import useUpdateTodo from "../../lib/hook/mutation/useUpdateTodo";
 import useGetTodoById from "../../lib/hook/queries/useGetTodoById";
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+import { style } from "../../styles/modal";
+import { BarProps, Ref } from "../../interface/IProps";
+import Modal from "@mui/material/Modal";
+import UpdateConfirm from "./UpdateConfirm";
 
 interface UpdateTodoProps {
   id: string;
-  setOpenModal: Dispatch<SetStateAction<boolean>>;
+  setOpenUpdateModal: Dispatch<SetStateAction<boolean>>;
 }
 
-function UpdateTodo({ id, setOpenModal }: UpdateTodoProps) {
+function UpdateTodo({ id, setOpenUpdateModal }: UpdateTodoProps) {
   const todo = useGetTodoById(id);
-  const updateTodoMutation = useUpdateTodo();
+  const [title, setTitle] = useState<FormDataEntryValue>("");
+  const [content, setContent] = useState<FormDataEntryValue>("");
+  const [openConfirmModal, setOpenConfirmModal] = useState(false);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const title: FormDataEntryValue = data.get("title") ?? "";
     const content: FormDataEntryValue = data.get("content") ?? "";
-    updateTodoMutation.mutate({ title, content, id: id });
-    setOpenModal(false);
+    setTitle(title);
+    setContent(content);
+    setOpenConfirmModal(true);
+  };
+  const ConfirmModalCloseHandler = () => {
+    setOpenConfirmModal(false);
   };
   return (
     <Box component="form" sx={style} onSubmit={handleSubmit}>
@@ -72,12 +75,32 @@ function UpdateTodo({ id, setOpenModal }: UpdateTodoProps) {
         type="submit"
         variant="contained"
         sx={{ mt: 3, mb: 2, ml: 1 }}
-        onClick={() => setOpenModal(false)}
+        onClick={() => setOpenUpdateModal(false)}
       >
         취소하기
       </Button>
+      <Modal
+        open={openConfirmModal}
+        onClose={ConfirmModalCloseHandler}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Bar type={"span"}>
+          <UpdateConfirm
+            id={id}
+            title={title}
+            content={content}
+            setOpenConfirmModal={setOpenConfirmModal}
+            setOpenUpdateModal={setOpenUpdateModal}
+          />
+        </Bar>
+      </Modal>
     </Box>
   );
 }
-
+const Bar = forwardRef<Ref, BarProps>((props, ref) => (
+  <span {...props} ref={ref}>
+    {props.children}
+  </span>
+));
 export default UpdateTodo;

@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent, forwardRef, ReactNode } from "react";
+import React, { useState, MouseEvent, forwardRef } from "react";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Box from "@mui/material/Box";
@@ -7,33 +7,32 @@ import CardActions from "@mui/material/CardActions";
 import Container from "@mui/material/Container";
 import Modal from "@mui/material/Modal";
 import UpdateTodo from "../Modal/UpdateTodo";
-import useDeleteTodo from "../../lib/hook/mutation/useDeleteTodo";
 import useGetTodos from "../../lib/hook/queries/useGetTodos";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-
-interface BarProps {
-  children?: ReactNode;
-  type: "submit" | "span";
-}
-export type Ref = HTMLButtonElement;
+import DeleteConfirm from "../Modal/DeleteConfirm";
+import { BarProps, Ref } from "../../interface/IProps";
 
 function TodoListView() {
   const [id, setId] = useState("");
   const todos = useGetTodos();
-  const deleteTodoMutation = useDeleteTodo();
-  const [openModal, setOpenModal] = useState(false);
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
+  const [openConfirmModal, setOpenConfirmModal] = useState(false);
 
   const deleteHandler = (event: MouseEvent<HTMLButtonElement>, id: string) => {
     event.preventDefault();
-    deleteTodoMutation.mutate(id);
-  };
-  const updateHandler = (id: string) => {
-    setOpenModal(true);
+    setOpenConfirmModal(true);
     setId(id);
   };
-  const ModalCloseHandler = () => {
-    setOpenModal(false);
+  const updateHandler = (id: string) => {
+    setOpenUpdateModal(true);
+    setId(id);
+  };
+  const UpdateModalCloseHandler = () => {
+    setOpenUpdateModal(false);
+  };
+  const ConfirmModalCloseHandler = () => {
+    setOpenConfirmModal(false);
   };
 
   return (
@@ -59,13 +58,23 @@ function TodoListView() {
         ))}
       </Box>
       <Modal
-        open={openModal}
-        onClose={ModalCloseHandler}
+        open={openUpdateModal}
+        onClose={UpdateModalCloseHandler}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Bar type={"span"}>
-          <UpdateTodo id={id} setOpenModal={setOpenModal} />
+          <UpdateTodo id={id} setOpenUpdateModal={setOpenUpdateModal} />
+        </Bar>
+      </Modal>
+      <Modal
+        open={openConfirmModal}
+        onClose={ConfirmModalCloseHandler}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Bar type={"span"}>
+          <DeleteConfirm id={id} setOpenConfirmModal={setOpenConfirmModal} />
         </Bar>
       </Modal>
     </Container>
