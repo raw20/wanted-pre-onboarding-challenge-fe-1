@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { UserDataType } from "../../../interface/User.interface";
+import { UserDataType } from "../../../Types/User.interface";
 import { signUpController } from "../../api/auth";
 
 function useSignUp() {

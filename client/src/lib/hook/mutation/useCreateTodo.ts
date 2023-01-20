@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { TodoDataType } from "../../../interface/Todo.interface";
+import { TodoDataType } from "../../../Types/Todo.interface";
 import { createTodoController } from "../../api/todo";
 
 function useCreateTodo() {

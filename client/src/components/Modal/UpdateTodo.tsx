@@ -11,7 +11,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import useGetTodoById from "../../lib/hook/queries/useGetTodoById";
 import { style } from "../../styles/modal";
-import { BarProps, Ref } from "../../interface/IProps";
+import { BarProps, Ref } from "../../Types/IProps";
 import Modal from "@mui/material/Modal";
 import UpdateConfirm from "./UpdateConfirm";
 

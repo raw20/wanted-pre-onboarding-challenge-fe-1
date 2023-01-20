@@ -13,7 +13,7 @@ import useGetTodos from "../../lib/hook/queries/useGetTodos";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import TodoEdit from "../Menu/TodoEdit";
-import { BarProps, Ref } from "../../interface/IProps";
+import { BarProps, Ref } from "../../Types/IProps";
 
 function TodoDetailView() {
   const [id, setId] = useState("");
