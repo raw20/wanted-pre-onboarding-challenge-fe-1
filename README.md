@@ -1,13 +1,20 @@
 # React-Query를 이용한 Todo-List 🧾
 
 ## 프로젝트 소개 📖
+### 개요
 
-API를 이용하여 회원가입/로그인 , ToDo 리스트를 구현하였습니다.
+API를 호출하여 회원가입/로그인 , ToDo 리스트를 구현하였습니다.
 
- - [ ] 언어: TypeScript
+### 기술
+- 언어
+  - TypeScript : 타입 추론을 통해 안전하고 편리한 코드 작성을 위해 사용하였습니다.
 
- - [ ] 라이브러리 : React, React-Query, Axios, mui/material
-
+- 라이브러리 
+  - React : 컴포넌트 단위 개발로 재사용성이 가능
+  - React-Query : 
+  - Axios
+  - mui/material
+  
 ## 프로젝트 일정 📆
 
 ### 사전 과제 기간 (23.01.04 ~ 23.01.06)
@@ -30,13 +37,13 @@ API를 이용하여 회원가입/로그인 , ToDo 리스트를 구현하였습�
 
 - 수정 전
 
-```json
+```jsonc
 const [data,setData] = useState([])
 ```
 
 - 수정 후
 
-```json
+```jsonc
 const [toDoData, setTodoData] = useState([])
 ```
 
@@ -47,7 +54,8 @@ const [toDoData, setTodoData] = useState([])
 - [ ] Recoil 삭제
 
 기존에 적용시킨 Recoil의 기능은 리랜더링 시 axios 무한 호출을 막고자 state값을 만들어
-```json
+
+```jsonc
 const [refreshKey, setRefreshKey] = useRecoilState(refreshState);
       useEffect(() => {
       getTodosHandler();
@@ -58,7 +66,8 @@ const [refreshKey, setRefreshKey] = useRecoilState(refreshState);
 - [ ] React-Query 로 교체 후 API호출
 
 - UseQuery 사용
-```json
+
+```jsonc
 //TodoList.tsx
 
 const { data: todos, isLoading } = useQuery<TodoListType[]>({
@@ -68,7 +77,7 @@ const { data: todos, isLoading } = useQuery<TodoListType[]>({
 ```
 
 - UseMutation 사용
-```json
+```jsonc
 //TodoTextFiled.tsx
 
 const createTodoMutation = useMutation({mutationFn: ({ title, content }: TodoDataType) =>
@@ -99,7 +108,7 @@ const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 - [ ] Login/TodoList Router redirect 구현 수정 (예정)
 
 기존 코드에서는 Home.tsx에서
-```json
+```jsonc
 //Home.tsx
 
 useEffect(() => {
@@ -107,7 +116,7 @@ useEffect(() => {
         navigate("/login");
     } else {
       navigate("/todo");
-                }
+    }
 }, []);
 ```
 아래와 같이 token값이 존재하면 /todo로 존재하지 않으면 /login으로 이동시키게 구현하였습니다.
@@ -172,14 +181,15 @@ Home.tsx에서는 redirect기능말곤 구현이 안되어 있고 직접적으�
 
 ## 프로젝트 실행 방법 🔑
 
-- server
-
-        cd server
-        npm i
-        npm start
-
-- client
-
-        cd client
-        npm i
-        npm start
+- [ ]  server
+```jsonc
+cd server
+npm i  or yarn  
+npm start or yarn start
+```
+- [ ] client
+```jsonc
+cd client
+npm i
+npm start
+```
