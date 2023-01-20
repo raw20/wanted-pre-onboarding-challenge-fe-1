@@ -59,6 +59,7 @@ const [toDoData, setTodoData] = useState([])
 - [ ] Recoil 삭제
 
 기존에 적용시킨 Recoil의 기능은 리랜더링 시 axios 무한 호출을 막고자 refreshKey라는 state값을 만들었습니다.
+
 추가/수정/삭제 버튼을 누르면 refreshKey가 +1이 발생하여 refreshKey의 값이 변화될때마다 데이터를 호출할 수 있도록 하였습니다.
 ```jsonc
 const [refreshKey, setRefreshKey] = useRecoilState(refreshState);
@@ -66,7 +67,8 @@ const [refreshKey, setRefreshKey] = useRecoilState(refreshState);
       getTodosHandler();
 }, [refreshKey]);
 ```
-하지만 이러한 과정은 잘 작동은 되지만 만약 실시간으로 최신화 된 데이터가 필요하다고 가정하면 이러한 방식은 refreshKey가 변할 때만 작동되어서 적합하지 않는 방법이라 생각했습니다.
+하지만 아무런 동작없이 실시간으로 최신화 된 데이터가 필요하다고 가정하면 이러한 방식은 refreshKey가 변할 때만 작동되어서 적합하지 않는 방법이라 생각했습니다.
+
 이러한 문제를 해결하기 위해 ReactQuery를 도입하여 해결하였습니다.
 
 - [ ] React-Query 로 교체
@@ -126,8 +128,12 @@ useEffect(() => {
 }, []);
 ```
 아래와 같이 token값이 존재하면 /todo로 존재하지 않으면 /login으로 이동시키게 구현하였습니다.
+
 근데 주소창에 "/"를 치면 token이 존재하지 않을 때 Todo리스트 화면이 조금이라도 보이는지 확인을 아직 못했는데 애초에
-Home.tsx에서는 redirect기능말곤 구현이 안되어 있고 직접적으로 랜더링하는것이 없고 로그인, ToDo컴포넌트에 navigate를 쓴게 아니라서 상관없지 않을까라고 생각도 해봤는데 정확히 모르기   때문에 조금 더 공부하고 수정하도록 하겠습니다.
+
+Home.tsx에서는 redirect기능말곤 구현이 안되어 있고 직접적으로 랜더링하는것이 없고 로그인, ToDo컴포넌트에 navigate를 쓴게 아니라서 상관없지 않을까라고 생각도 해봤는데 정확히 모르기   
+
+때문에 조금 더 공부하고 수정하도록 하겠습니다.
 
 - [ ] 폴더구조 변경
 
