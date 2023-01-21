@@ -119,8 +119,12 @@ const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 
 리팩토링 전 vs 리팩토링 후
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/62588402/213727283-a478c605-092f-4afb-b019-6071bbf06dbf.PNG" width="450" height="460"/>
-  <img src="https://user-images.githubusercontent.com/62588402/213727388-1f60ed14-e2ec-47c9-bd28-f2ee68d924f3.PNG" width="450" height="460"/>
+  <kbd>
+    <img src="https://user-images.githubusercontent.com/62588402/213727283-a478c605-092f-4afb-b019-6071bbf06dbf.PNG" width="450" height="460"/>
+  </kbd>
+  <kbd>
+    <img src="https://user-images.githubusercontent.com/62588402/213727388-1f60ed14-e2ec-47c9-bd28-f2ee68d924f3.PNG" width="450" height="460"/>
+  </kbd>
 </p>
 
 - Todo-List 
@@ -131,20 +135,28 @@ const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 
 리팩토링 전 vs 리팩토링 후
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/62588402/213730594-772b6cf4-873e-4672-9a1d-ec80f50bca63.png" width="450" height="260"/>
-  <img src="https://user-images.githubusercontent.com/62588402/213729978-a1351d0c-1243-44b2-9afa-17d4c38ec870.PNG" width="450" height="260"/>
+  <kbd>
+    <img src="https://user-images.githubusercontent.com/62588402/213730594-772b6cf4-873e-4672-9a1d-ec80f50bca63.png" width="450" height="260"/>
+  </kbd>
+  <kbd>
+    <img src="https://user-images.githubusercontent.com/62588402/213729978-a1351d0c-1243-44b2-9afa-17d4c38ec870.PNG" width="450" height="260"/>
+  </kbd>
  </p>
   
   - 삭제/ 수정 버튼을 누르면 한번 더 확인해 주는 Modal창 구현 : 사용자가 실수로 클릭했을 경우를 방지
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/62588402/213731371-3642076c-67be-4c61-8341-5bc806361bbc.PNG" width="650" height="320"/>
+  <kbd>
+    <img src="https://user-images.githubusercontent.com/62588402/213731371-3642076c-67be-4c61-8341-5bc806361bbc.PNG" width="650" height="320"/>
+  </kbd>
  </p>
 
- - Todo 상세보기에서 버튼을 아이콘 형식으로 변경 : 모바일 버전으로 했을 때 삭제 버튼이 원치않게 터치가 될 수 있을거 같다고 생각하여 다음과 같이 개선
+ - Todo 상세보기에서 버튼을 아이콘 형식으로 변경 : 사용자가 스마트폰으로 사용할 때 삭제 버튼이 원치않게 터치가 될 수 있을거 같다고 생각하여 다음과 같이 개선
  
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/62588402/213736120-c70b1962-743a-45aa-bd50-3a52b2207165.PNG" width="250" height="250"/>
+  <kbd>
+    <img src="https://user-images.githubusercontent.com/62588402/213736120-c70b1962-743a-45aa-bd50-3a52b2207165.PNG" width="250" height="250"/>
+  </kbd>
  </p>
 
 - [ ] API함수 호출 후 token값이 없을때 예외사항 처리 (예정)
