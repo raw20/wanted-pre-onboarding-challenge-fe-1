@@ -1,4 +1,4 @@
-import React, { FormEvent } from "react";
+import React, { FormEvent, useState } from "react";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -8,14 +8,18 @@ import Grid from "@mui/material/Grid";
 
 function TodoTextField() {
   const createTodoMutation = useCreateTodo();
-
+  const [titleDefault, setTitleDefault] = useState(" ");
+  const [contentDefault, setContentDefault] = useState(" ");
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const title: FormDataEntryValue = data.get("title") ?? "";
     const content: FormDataEntryValue = data.get("content") ?? "";
     createTodoMutation.mutate({ title, content });
+    setTitleDefault("");
+    setContentDefault("");
   };
+
   return (
     <Container>
       <Box
@@ -31,6 +35,10 @@ function TodoTextField() {
           id="title"
           label="Write down your to-dos title"
           name="title"
+          value={titleDefault}
+          onChange={(newValue) => {
+            setTitleDefault(newValue.target.value);
+          }}
           autoFocus
         />
         <TextField
@@ -40,6 +48,10 @@ function TodoTextField() {
           id="content"
           label="Write down your to-dos content"
           name="content"
+          value={contentDefault}
+          onChange={(newValue) => {
+            setContentDefault(newValue.target.value);
+          }}
           autoFocus
         />
         <Grid container justifyContent="center">

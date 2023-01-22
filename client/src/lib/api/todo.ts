@@ -23,7 +23,7 @@ export const createTodoController = (
     )
     .then((response) => response.data)
     .catch((error: any) => {
-      if (error instanceof AxiosError) console.log(error.response);
+      if (error instanceof AxiosError) return error.response?.data.details;
     });
 
 export const getTodosController = (): Promise<TodoListType[]> =>
@@ -35,7 +35,7 @@ export const getTodosController = (): Promise<TodoListType[]> =>
     })
     .then((response) => response.data.data)
     .catch((error: any) => {
-      if (error instanceof AxiosError) console.log(error.response);
+      if (error instanceof AxiosError) return error.response?.data.details;
     });
 
 export const getTodoByIdController = (id: string): Promise<TodoListType> =>
@@ -47,7 +47,7 @@ export const getTodoByIdController = (id: string): Promise<TodoListType> =>
     })
     .then((response) => response.data.data)
     .catch((error: any) => {
-      if (error instanceof AxiosError) console.log(error.response);
+      if (error instanceof AxiosError) return error.response?.data.details;
     });
 
 export const deleteTodoController = (id: string) =>
@@ -59,7 +59,7 @@ export const deleteTodoController = (id: string) =>
     })
     .then((response) => response.data)
     .catch((error: any) => {
-      if (error instanceof AxiosError) console.log(error.response);
+      if (error instanceof AxiosError) return error.response?.data.details;
     });
 export const updateTodoController = (
   title: FormDataEntryValue,
@@ -81,5 +81,5 @@ export const updateTodoController = (
     )
     .then((response) => response.data)
     .catch((error: any) => {
-      if (error instanceof AxiosError) console.log(error.response);
+      if (error instanceof AxiosError) return error.response?.data.details;
     });
