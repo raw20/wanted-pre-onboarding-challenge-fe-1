@@ -1,16 +1,11 @@
-import React, { forwardRef, MouseEvent, ReactNode, useState } from "react";
+import React, { forwardRef, MouseEvent, useState } from "react";
 import Menu from "@mui/material/Menu";
 import IconButton from "@mui/material/IconButton";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import Modal from "@mui/material/Modal";
 import DeleteConfirm from "../Modal/DeleteConfirm";
-
-interface BarProps {
-  children?: ReactNode;
-  type: "submit" | "span";
-}
-export type Ref = HTMLButtonElement;
+import { BarProps, Ref } from "../../types/IProps";
 
 interface ITodoEditProps {
   open: boolean;
