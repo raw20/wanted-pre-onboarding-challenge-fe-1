@@ -1,5 +1,4 @@
 import React from "react";
-import "./App.css";
 import Footer from "./components/Footer/Footer";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Router from "./routes/Router";
@@ -9,7 +8,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 const queryClient = new QueryClient();
 const theme = createTheme();
 
-function App() {
+const App = (): JSX.Element => {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
@@ -19,6 +18,6 @@ function App() {
       <ReactQueryDevtools initialIsOpen={true} />
     </QueryClientProvider>
   );
-}
+};
 
 export default App;
