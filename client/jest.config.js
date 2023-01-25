@@ -8,4 +8,7 @@ module.exports = {
       tsconfig: "tsconfig.jest.json",
     },
   },
+  moduleNameMapper: {
+    "\\.(css|less)$": "<rootDir>/src/test/styleMock.ts",
+  },
 };

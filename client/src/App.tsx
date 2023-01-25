@@ -1,4 +1,5 @@
 import React from "react";
+import "./App.css";
 import Footer from "./components/Footer/Footer";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Router from "./routes/Router";
