@@ -12,7 +12,7 @@ import UpdateTodo from "../Modal/UpdateTodo";
 import useGetTodos from "../../lib/hook/queries/useGetTodos";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import TodoEdit from "../Menu/TodoEdit";
+import TodoEdit from "../Modal/Menu/TodoEdit";
 import { BarProps, Ref } from "../../types/IProps";
 
 function TodoDetailView() {
