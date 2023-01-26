@@ -167,32 +167,6 @@ invalidateQueries로 인해 쿼리가 stale되고 refetch가 진행되어 투두
   </kbd>
  </p>
 
-- [ ] API함수 호출 후 token값이 없을때 예외사항 처리 (예정)
-
-- [ ] Login/TodoList Router redirect 구현 수정 (예정)
-
-기존 코드에서는 Home.tsx에서
-
-```jsonc
-//Home.tsx
-
-useEffect(() => {
-    if (!token) {
-        navigate("/login");
-    } else {
-      navigate("/todo");
-    }
-}, []);
-```
-
-아래와 같이 token값이 존재하면 /todo로 존재하지 않으면 /login으로 이동시키게 구현하였습니다.
-
-근데 주소창에 "/"를 치면 token이 존재하지 않을 때 Todo리스트 화면이 조금이라도 보이는지 확인을 아직 못했는데 애초에
-
-Home.tsx에서는 redirect기능말곤 구현이 안되어 있고 직접적으로 랜더링하는것이 없고 로그인, ToDo컴포넌트에 navigate를 쓴게 아니라서 상관없지 않을까라고 생각도 해봤는데 정확히 모르기
-
-때문에 조금 더 공부하고 수정하도록 하겠습니다.
-
 - [ ] 폴더구조 변경
 
 - 기존 폴더구조
