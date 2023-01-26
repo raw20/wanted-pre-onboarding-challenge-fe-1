@@ -17,7 +17,7 @@ import { BarProps, Ref } from "../../types/IProps";
 
 function TodoDetailView() {
   const [id, setId] = useState("");
-  const todos = useGetTodos();
+  const { todos } = useGetTodos();
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);

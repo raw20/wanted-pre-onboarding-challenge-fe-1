@@ -15,7 +15,7 @@ import { BarProps, Ref } from "../../types/IProps";
 
 function TodoListView() {
   const [id, setId] = useState("");
-  const todos = useGetTodos();
+  const { todos } = useGetTodos();
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
 

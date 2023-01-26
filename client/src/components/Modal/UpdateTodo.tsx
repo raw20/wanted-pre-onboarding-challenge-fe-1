@@ -21,7 +21,7 @@ interface UpdateTodoProps {
 }
 
 function UpdateTodo({ id, setOpenUpdateModal }: UpdateTodoProps) {
-  const todo = useGetTodoById(id);
+  const { todo } = useGetTodoById(id);
   const [title, setTitle] = useState<FormDataEntryValue>("");
   const [content, setContent] = useState<FormDataEntryValue>("");
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
