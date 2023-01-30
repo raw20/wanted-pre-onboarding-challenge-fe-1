@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent, forwardRef } from "react";
+import React, { useState, MouseEvent } from "react";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Box from "@mui/material/Box";
@@ -6,12 +6,14 @@ import IconButton from "@mui/material/IconButton";
 import CardActions from "@mui/material/CardActions";
 import Container from "@mui/material/Container";
 import Modal from "@mui/material/Modal";
+import Dialog from "@mui/material/Dialog";
 import UpdateTodo from "../Modal/UpdateTodo";
 import useGetTodos from "../../lib/hook/queries/useGetTodos";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import DeleteConfirm from "../Modal/DeleteConfirm";
-import { BarProps, Ref } from "../../types/IProps";
+import DeleteConfirm from "../Dialog/DeleteConfirm";
+import PaperComponent from "../Paper/PaperComponent";
+import { Bar } from "../Bar/Bar";
 
 function TodoListView() {
   const [id, setId] = useState("");
@@ -67,24 +69,16 @@ function TodoListView() {
           <UpdateTodo id={id} setOpenUpdateModal={setOpenUpdateModal} />
         </Bar>
       </Modal>
-      <Modal
+      <Dialog
         open={openConfirmModal}
         onClose={ConfirmModalCloseHandler}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+        PaperComponent={PaperComponent}
+        aria-labelledby="draggable-dialog-title"
       >
-        <Bar type={"span"}>
-          <DeleteConfirm id={id} setOpenConfirmModal={setOpenConfirmModal} />
-        </Bar>
-      </Modal>
+        <DeleteConfirm id={id} setOpenConfirmModal={setOpenConfirmModal} />
+      </Dialog>
     </Container>
   );
 }
-
-const Bar = forwardRef<Ref, BarProps>((props, ref) => (
-  <span {...props} ref={ref}>
-    {props.children}
-  </span>
-));
 
 export default TodoListView;

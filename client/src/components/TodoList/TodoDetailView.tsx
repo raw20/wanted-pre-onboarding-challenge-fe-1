@@ -33,69 +33,71 @@ function TodoDetailView() {
 
   return (
     <Container maxWidth="md" component="main" sx={{ mt: 10 }}>
-      {todos?.map((todo) => (
-        <Grid item key={todo.title} xs={12} md={4}>
-          <Card>
-            <CardHeader
-              title={todo.title}
-              titleTypographyProps={{ align: "center" }}
-              subheaderTypographyProps={{
-                align: "center",
-              }}
-              sx={{
-                backgroundColor: (theme) =>
-                  theme.palette.mode === "light"
-                    ? theme.palette.grey[200]
-                    : theme.palette.grey[700],
-              }}
-              action={
-                <>
-                  <IconButton
-                    aria-label="more"
-                    id="long-button"
-                    aria-controls={open ? "long-menu" : undefined}
-                    aria-expanded={open ? "true" : undefined}
-                    aria-haspopup="true"
-                    onClick={(event) => handleClick(event, todo.id)}
-                  >
-                    <MoreVertIcon />
-                  </IconButton>
-                  <TodoEdit
-                    open={open}
-                    anchorEl={anchorEl}
-                    setAnchorEl={setAnchorEl}
-                    setOpenUpdateModal={setOpenUpdateModal}
-                    setId={setId}
-                    id={id}
-                  />
-                </>
-              }
-            />
-            <CardContent>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "baseline",
-                  height: 50,
-                  mb: 2,
+      <Grid container spacing={5} alignItems="flex-end">
+        {todos?.map((todo) => (
+          <Grid item key={todo.title} xs={12} md={4}>
+            <Card>
+              <CardHeader
+                title={todo.title}
+                titleTypographyProps={{ align: "center" }}
+                subheaderTypographyProps={{
+                  align: "center",
                 }}
-              >
-                <ul>
-                  <Typography
-                    component="li"
-                    variant="subtitle1"
-                    align="center"
-                    key={`${todo.id}`}
-                  >
-                    {todo.content}
-                  </Typography>
-                </ul>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-      ))}
+                sx={{
+                  backgroundColor: (theme) =>
+                    theme.palette.mode === "light"
+                      ? theme.palette.grey[200]
+                      : theme.palette.grey[700],
+                }}
+                action={
+                  <>
+                    <IconButton
+                      aria-label="more"
+                      id="long-button"
+                      aria-controls={open ? "long-menu" : undefined}
+                      aria-expanded={open ? "true" : undefined}
+                      aria-haspopup="true"
+                      onClick={(event) => handleClick(event, todo.id)}
+                    >
+                      <MoreVertIcon />
+                    </IconButton>
+                    <TodoEdit
+                      open={open}
+                      anchorEl={anchorEl}
+                      setAnchorEl={setAnchorEl}
+                      setOpenUpdateModal={setOpenUpdateModal}
+                      setId={setId}
+                      id={id}
+                    />
+                  </>
+                }
+              />
+              <CardContent>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "baseline",
+                    height: 50,
+                    mb: 2,
+                  }}
+                >
+                  <ul>
+                    <Typography
+                      component="li"
+                      variant="subtitle1"
+                      align="center"
+                      key={`${todo.id}`}
+                    >
+                      {todo.content}
+                    </Typography>
+                  </ul>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
       <Modal
         open={openUpdateModal}
         onClose={ModalCloseHandler}

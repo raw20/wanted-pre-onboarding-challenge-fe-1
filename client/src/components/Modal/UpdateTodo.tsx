@@ -1,19 +1,13 @@
-import React, {
-  FormEvent,
-  SetStateAction,
-  Dispatch,
-  useState,
-  forwardRef,
-} from "react";
+import React, { FormEvent, SetStateAction, Dispatch, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import useGetTodoById from "../../lib/hook/queries/useGetTodoById";
 import { style } from "../../styles/modal";
-import { BarProps, Ref } from "../../types/IProps";
-import Modal from "@mui/material/Modal";
-import UpdateConfirm from "./UpdateConfirm";
+import Dialog from "@mui/material/Dialog";
+import UpdateConfirm from "../Dialog/UpdateConfirm";
+import PaperComponent from "../Paper/PaperComponent";
 
 interface UpdateTodoProps {
   id: string;
@@ -79,28 +73,22 @@ function UpdateTodo({ id, setOpenUpdateModal }: UpdateTodoProps) {
       >
         취소하기
       </Button>
-      <Modal
+      <Dialog
         open={openConfirmModal}
         onClose={ConfirmModalCloseHandler}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+        PaperComponent={PaperComponent}
+        aria-labelledby="draggable-dialog-title"
       >
-        <Bar type={"span"}>
-          <UpdateConfirm
-            id={id}
-            title={title}
-            content={content}
-            setOpenConfirmModal={setOpenConfirmModal}
-            setOpenUpdateModal={setOpenUpdateModal}
-          />
-        </Bar>
-      </Modal>
+        <UpdateConfirm
+          id={id}
+          title={title}
+          content={content}
+          setOpenConfirmModal={setOpenConfirmModal}
+          setOpenUpdateModal={setOpenUpdateModal}
+        />
+      </Dialog>
     </Box>
   );
 }
-const Bar = forwardRef<Ref, BarProps>((props, ref) => (
-  <span {...props} ref={ref}>
-    {props.children}
-  </span>
-));
+
 export default UpdateTodo;

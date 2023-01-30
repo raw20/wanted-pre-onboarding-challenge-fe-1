@@ -4,7 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import Modal from "@mui/material/Modal";
-import DeleteConfirm from "../DeleteConfirm";
+import DeleteConfirm from "../../Dialog/DeleteConfirm";
 import { Ref, BarProps } from "../../../types/IProps";
 
 interface ITodoEditProps {

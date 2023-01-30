@@ -1,10 +1,10 @@
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import React, { Dispatch, SetStateAction } from "react";
 import useUpdateTodo from "../../lib/hook/mutation/useUpdateTodo";
-import { style } from "../../styles/modal";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 interface IUpdateConfirmProps {
   id: string;
@@ -26,36 +26,30 @@ function UpdateConfirm({
     setOpenConfirmModal(false);
   };
   return (
-    <Box sx={style}>
-      <Typography id="modal-modal-title" variant="h5" component="h2">
-        정말로 수정하시겠습니까??
-      </Typography>
-      <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-        수정이 완료되면 수정 전 Todo 는 복구할 수 없습니다.
-      </Typography>
-      <Grid container justifyContent="space-evenly">
+    <>
+      <DialogTitle style={{ cursor: "move" }} id="draggable-dialog-title">
+        정말로 수정하시겠습니까?
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          수정하기 전 데이터는 복구할 수 없습니다.
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button autoFocus onClick={ConfirmModalCloseHandler}>
+          취소
+        </Button>
         <Button
-          type="submit"
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
           onClick={() => {
             updateTodoMutation.mutate({ title, content, id: id });
             setOpenConfirmModal(false);
             setOpenUpdateModal(false);
           }}
         >
-          네
+          수정
         </Button>
-        <Button
-          type="submit"
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
-          onClick={ConfirmModalCloseHandler}
-        >
-          아니오
-        </Button>
-      </Grid>
-    </Box>
+      </DialogActions>
+    </>
   );
 }
 
