@@ -14,7 +14,7 @@ import { Typography } from "@mui/material";
 import AccordionDetails from "../Accordion/AccordionDetails";
 import TodoEdit from "../Modal/Menu/TodoEdit";
 
-function TodoListView() {
+function Todo() {
   const [id, setId] = useState("");
   const [expanded, setExpanded] = useState<string | false>("panel1");
   const { todos } = useGetTodos();
@@ -105,4 +105,4 @@ function TodoListView() {
   );
 }
 
-export default TodoListView;
+export default Todo;

@@ -6,7 +6,7 @@ import Container from "@mui/material/Container";
 import Header from "../components/Header/Header";
 import TodoTextField from "../components/TextField/TodoTextField";
 import { Navigate } from "react-router-dom";
-import TodoListView from "../components/TodoList/Todo";
+import Todo from "../components/TodoList/Todo";
 
 function TodoList() {
   const token = window.localStorage.getItem("toDos");
@@ -47,7 +47,7 @@ function TodoList() {
         </Typography>
         <TodoTextField />
 
-        <TodoListView />
+        <Todo />
       </Container>
     </React.Fragment>
   );
