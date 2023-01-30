@@ -5,14 +5,13 @@ import GlobalStyles from "@mui/material/GlobalStyles";
 import Container from "@mui/material/Container";
 import Header from "../components/Header/Header";
 import TodoTextField from "../components/TextField/TodoTextField";
-import { Navigate } from "react-router-dom";
 import Todo from "../components/TodoList/Todo";
+import { Navigate } from "react-router-dom";
 
 function TodoList() {
   const token = window.localStorage.getItem("toDos");
   if (!token) {
-    alert("토큰이 없거나 만료되어 로그인 페이지로 이동합니다.");
-    return <Navigate to="/" />;
+    return <Navigate replace to="/error" />;
   }
 
   return (

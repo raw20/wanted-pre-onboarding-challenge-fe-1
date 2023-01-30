@@ -12,8 +12,7 @@ export default function Login() {
   const token = window.localStorage.getItem("toDos");
 
   if (token) {
-    alert("로그인중에는 접근할 수 없는 페이지입니다.");
-    return <Navigate to="/todo" />;
+    return <Navigate replace to="/error" />;
   }
   return (
     <Container component="main" maxWidth="xs">
