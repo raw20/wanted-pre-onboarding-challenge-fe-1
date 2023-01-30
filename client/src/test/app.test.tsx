@@ -4,14 +4,10 @@ import { rest } from "msw";
 import { render, screen } from "@testing-library/react";
 import { server } from "../setupTests";
 import TodoList from "../pages/TodoList";
-import TodoListView from "../components/TodoList/TodoListView";
-import TodoDetailView from "../components/TodoList/TodoDetailView";
 
 describe("query component", () => {
   test("successful query component", async () => {
     render(<TodoList />);
-    render(<TodoListView />);
-    render(<TodoDetailView />);
 
     const listitems = await screen.findAllByRole("listitem");
     expect(listitems).not.toHaveLength(0);
@@ -25,8 +21,7 @@ describe("query component", () => {
     );
 
     render(<TodoList />);
-    render(<TodoListView />);
-    render(<TodoDetailView />);
+
     const error = () => {
       throw new TypeError("UNKNOWN ERROR");
     };

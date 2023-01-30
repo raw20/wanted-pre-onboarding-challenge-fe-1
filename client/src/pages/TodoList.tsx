@@ -3,18 +3,13 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import GlobalStyles from "@mui/material/GlobalStyles";
 import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import ButtonGroup from "@mui/material/ButtonGroup";
 import Header from "../components/Header/Header";
 import TodoTextField from "../components/TextField/TodoTextField";
-import { Link, Navigate, Outlet, useMatch } from "react-router-dom";
-import { theme } from "../styles/theme";
+import { Navigate } from "react-router-dom";
+import TodoListView from "../components/TodoList/Todo";
 
 function TodoList() {
   const token = window.localStorage.getItem("toDos");
-  const listMatch = useMatch("/todo/list");
-  const detailMatch = useMatch("/todo/detail");
   if (!token) {
     alert("토큰이 없거나 만료되어 로그인 페이지로 이동합니다.");
     return <Navigate to="/" />;
@@ -52,44 +47,7 @@ function TodoList() {
         </Typography>
         <TodoTextField />
 
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "baseline",
-            mb: 10,
-          }}
-        >
-          <ButtonGroup variant="outlined" aria-label="outlined button group">
-            <Link to="/todo/list">
-              <Button
-                sx={{
-                  backgroundColor:
-                    listMatch !== null ? theme.palette.primary.main : "#fff",
-                  color:
-                    listMatch !== null ? "#fff" : theme.palette.primary.main,
-                  fontWeight: "bold",
-                }}
-              >
-                목록 보기
-              </Button>
-            </Link>
-            <Link to="/todo/detail">
-              <Button
-                sx={{
-                  backgroundColor:
-                    detailMatch !== null ? theme.palette.primary.main : "#fff",
-                  color:
-                    detailMatch !== null ? "#fff" : theme.palette.primary.main,
-                  fontWeight: "bold",
-                }}
-              >
-                상세 보기
-              </Button>
-            </Link>
-          </ButtonGroup>
-        </Box>
-        <Outlet />
+        <TodoListView />
       </Container>
     </React.Fragment>
   );

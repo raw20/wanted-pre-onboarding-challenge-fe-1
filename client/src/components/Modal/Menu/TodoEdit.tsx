@@ -1,11 +1,11 @@
-import React, { forwardRef, MouseEvent, useState } from "react";
+import React, { MouseEvent, useState } from "react";
 import Menu from "@mui/material/Menu";
 import IconButton from "@mui/material/IconButton";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import Modal from "@mui/material/Modal";
 import DeleteConfirm from "../../Dialog/DeleteConfirm";
-import { Ref, BarProps } from "../../../types/IProps";
+import Dialog from "@mui/material/Dialog";
+import PaperComponent from "../../Paper/PaperComponent";
 
 interface ITodoEditProps {
   open: boolean;
@@ -24,7 +24,7 @@ function TodoEdit({
   setId,
   id,
 }: ITodoEditProps) {
-  const [openConfirmModal, setOpenConfirmModal] = useState(false);
+  const [openConfirm, setOpenConfirm] = useState(false);
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -33,7 +33,7 @@ function TodoEdit({
   const deleteHandler = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setAnchorEl(null);
-    setOpenConfirmModal(true);
+    setOpenConfirm(true);
   };
 
   const updateHandler = (id: string) => {
@@ -43,7 +43,7 @@ function TodoEdit({
   };
 
   const ConfirmModalCloseHandler = () => {
-    setOpenConfirmModal(false);
+    setOpenConfirm(false);
   };
   return (
     <>
@@ -63,23 +63,16 @@ function TodoEdit({
           <DeleteOutlinedIcon />
         </IconButton>
       </Menu>
-      <Modal
-        open={openConfirmModal}
+      <Dialog
+        open={openConfirm}
         onClose={ConfirmModalCloseHandler}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+        PaperComponent={PaperComponent}
+        aria-labelledby="draggable-dialog-title"
       >
-        <Bar type={"span"}>
-          <DeleteConfirm id={id} setOpenConfirmModal={setOpenConfirmModal} />
-        </Bar>
-      </Modal>
+        <DeleteConfirm id={id} setOpenConfirm={setOpenConfirm} />
+      </Dialog>
     </>
   );
 }
-const Bar = forwardRef<Ref, BarProps>((props, ref) => (
-  <span {...props} ref={ref}>
-    {props.children}
-  </span>
-));
 
 export default TodoEdit;

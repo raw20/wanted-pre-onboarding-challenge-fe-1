@@ -7,13 +7,13 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 interface IDeleteConfirmProps {
   id: string;
-  setOpenConfirmModal: Dispatch<SetStateAction<boolean>>;
+  setOpenConfirm: Dispatch<SetStateAction<boolean>>;
 }
 
-function DeleteConfirm({ id, setOpenConfirmModal }: IDeleteConfirmProps) {
+function DeleteConfirm({ id, setOpenConfirm }: IDeleteConfirmProps) {
   const deleteTodoMutation = useDeleteTodo();
   const ConfirmModalCloseHandler = () => {
-    setOpenConfirmModal(false);
+    setOpenConfirm(false);
   };
   return (
     <>
@@ -32,7 +32,7 @@ function DeleteConfirm({ id, setOpenConfirmModal }: IDeleteConfirmProps) {
         <Button
           onClick={() => {
             deleteTodoMutation.mutate(id);
-            setOpenConfirmModal(false);
+            setOpenConfirm(false);
           }}
         >
           삭제
