@@ -150,12 +150,12 @@ invalidateQueries로 인해 쿼리가 stale되고 refetch가 진행되어 투두
     <img src="https://user-images.githubusercontent.com/62588402/213729978-a1351d0c-1243-44b2-9afa-17d4c38ec870.PNG" width="450" height="260"/>
   </kbd>
  </p>
-  
-  - 삭제/ 수정 버튼을 누르면 한번 더 확인해 주는 Modal창 구현 : 사용자가 실수로 클릭했을 경우를 방지
+
+  - 삭제/ 수정 버튼을 누르면 한번 더 확인해 주는 다이어로그 구현 : 사용자가 실수로 클릭했을 경우를 방지
 
 <p align="center">
   <kbd>
-    <img src="https://user-images.githubusercontent.com/62588402/213731371-3642076c-67be-4c61-8341-5bc806361bbc.PNG" width="650" height="320"/>
+    <img src="https://user-images.githubusercontent.com/62588402/215389124-ee8271a7-9516-4051-ac8b-d159c0e941a8.PNG" width="650" height="320"/>
   </kbd>
  </p>
 
